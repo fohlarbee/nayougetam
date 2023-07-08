@@ -1,23 +1,17 @@
-import { Alert, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { FocusedStatusBar } from '../components/FocusedStatusBar'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { CustomTextInput } from '../components/CustomTextInput';
-import { CustomButton } from '../components/CustomButton';
-import { Formik } from 'formik';
 import * as Yup from "yup";
 
 
-import { AppText } from '../components/AppText';
-import { ErrorMessage } from '../components/ErrorMessage';
+import { AppText } from '../components/AppText';  
 import { AppFormField } from '../components/AppFormField';
 import { SubmitButton } from '../components/SubmitButton';
 import AppForm from '../components/AppForm';
 import { Screen } from '../components/Screen';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { authentication } from '../firebase/firebaseConfig';
-import AppNavigator from '../navigation/AppNavigator';
-import AuthContext, { AppContext } from '../Globals/AppContext';
+import AuthContext from '../Globals/AppContext';
 import ActivityIndicator from '../components/ActivityIndicator';
 import storage from '../auth/storage';
 
@@ -40,16 +34,18 @@ export function Login({navigation}) {
       signInWithEmailAndPassword(authentication, values.email, values.password)
       onAuthStateChanged(authentication, () => {
         const user = authentication?.currentUser?.uid
-        console.log('resl user', user)
         setUser(user);
         setUserLoggedIn(true);
         storage.storeToken(user);
+        // setVisible(false);
       })
       
       
       
     } catch (error) {
-      Alert.alert('Error', error.message);
+      alert(error.message);
+      setVisible(false);
+
     }
   }
 
@@ -122,13 +118,11 @@ const styles = StyleSheet.create({
     },
     container:{
         flex:1,
-        // height:height
     },
     loginFormHolder:{
       flex:1,
       width:width,
       bottom:0,
-      // maxHeight:height,
       backgroundColor:"#fff",
       alignSelf:"center",
       marginTop:63,

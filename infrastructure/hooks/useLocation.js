@@ -9,11 +9,10 @@ const useLocation = () => {
     const getLocation = async() => {
         try {
             const {granted} = await Location.requestForegroundPermissionsAsync();
-            // console.log(granted);
             if(!granted) return Alert.alert('App Notice', 'Please allow permission for location',[
                 {text:'OK'}
             ])
-            const result = await Location.getLastKnownPositionAsync();
+            const result = await Location.getCurrentPositionAsync();
             let latitude = result.coords.latitude;
             let longitude = result.coords.longitude;
             

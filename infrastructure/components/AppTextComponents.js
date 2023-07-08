@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
     textInput:{
         fontSize:18,
-        fontFamily:Platform.OS === "andriod" ? "Lato" : "Roboto",
+        fontFamily:Platform.OS === "andriod" ? "Lato" : "Avenir",
         width:"100%",
         color:Theme.colors.dark
     

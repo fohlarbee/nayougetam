@@ -13,22 +13,21 @@ import { addDoc, collection } from 'firebase/firestore';
 import { app, db } from '../firebase/firebaseConfig';
 import useLocation from '../hooks/useLocation';
 import AuthContext from '../Globals/AppContext';
-import { loadoadScreen } from '../components/UploadScreen';
 import ActivityIndicator from '../components/ActivityIndicator';
 import * as Notifications from 'expo-notifications';
 import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 
 
 const categories = [
-    {label:"Funiture", value:1, backgroundColor:"#40513B", icon:"table-furniture"},
-    {label:"Clothings", value:2, backgroundColor:"green", icon:"tshirt-crew"},
-    {label:"Stationary", value:3, backgroundColor:"#A459D1", icon:"book"},
-    {label:"Bicycles", value:4, backgroundColor:"#4D455D", icon:"lock"},
-    {label:"Bicycles", value:5, backgroundColor:"#E96479", icon:"lock"},
-    {label:"Bicycles", value:6, backgroundColor:"#7DB9B6", icon:"lock"},
-    {label:"Bicycles", value:7, backgroundColor:"orange", icon:"lock"},
-    {label:"Bicycles", value:8, backgroundColor:"purple", icon:"lock"},
-    {label:"Bicycles", value:9, backgroundColor:"#F5E9CF", icon:"lock"},
+    {label:"Shoes", value:1, backgroundColor:"#40513B", icon:"table-furniture"},
+    {label:"Cloths", value:2, backgroundColor:"green", icon:"tshirt-crew"},
+    {label:"Stationeries", value:3, backgroundColor:"#A459D1", icon:"book"},
+    {label:"Jewerie", value:4, backgroundColor:"#4D455D", icon:"lock"},
+    {label:"Handouts", value:5, backgroundColor:"#E96479", icon:"lock"},
+    {label:"Equipments", value:6, backgroundColor:"#7DB9B6", icon:"lock"},
+    {label:"Perfumes", value:7, backgroundColor:"orange", icon:"lock"},
+    {label:"Wigs", value:8, backgroundColor:"purple", icon:"lock"},
+    {label:"Services", value:9, backgroundColor:"#F5E9CF", icon:"lock"},
 ]
 
 const validationSchema = Yup.object().shape({
@@ -63,16 +62,13 @@ const metadata = {
 };
 
 export function ListingEditScreen() {
-    // const [category, setCategory] = useState();
     const [onUpload, setOnUpload] = useState(false);
     const [onUploadIndex, setOnUploadIndex] = useState(0);
     const {user} = useContext(AuthContext);
     const [posting, setPosting] = useState('Upload')
     const [imagesUrls, setImagesUrls] = useState([])
-    // console.log('this is imagesurls',imagesUrls) 
     const location = useLocation();
   
-    // console.log(blobs)
 
   
 
@@ -104,12 +100,8 @@ export function ListingEditScreen() {
             let local = [];
             await getDownloadURL(storageRef)
             .then(async(url) => {
-              // setImagesUrls([...imagesUrls, url])
               imagesUrls.push(url) //use this
-              // setImagesUrls(imagesUrls,url)
-              // local.push(url)
             })
-            // setImagesUrls(...imagesUrls,local);
         })
         })
     
@@ -122,11 +114,11 @@ export function ListingEditScreen() {
     }
    
   }
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, resetForm) => {
     try {
       if(imagesUrls.length >= 1){
         setOnUpload(true);
-        const result =  await addDoc(collection(db, 'listings'), {
+        const result =  await addDoc(collection(db, 'listings',), {
           category:values.category,
           description:values.description,
           images:imagesUrls,
@@ -139,6 +131,8 @@ export function ListingEditScreen() {
           setOnUpload(false)
           alert('Listing has been created');
           showNotification();
+          resetForm();
+
         })
       }else {
         setOnUpload(false);
@@ -148,10 +142,11 @@ export function ListingEditScreen() {
      
     } catch (error) {
       setOnUpload(false);
+      resetForm();
+
       alert('Error, connecting to server');
 
     }
-   
   }
    
 
@@ -178,7 +173,7 @@ export function ListingEditScreen() {
               onSubmit={async(values, {resetForm}) => {
                 await handleUpload(values)
                 setTimeout(() => {
-                  handleSubmit(values)
+                  handleSubmit(values, resetForm)
                 }, 10000);
                   //  useUrls.useUrls(values)
                 // setTi meout(() => {

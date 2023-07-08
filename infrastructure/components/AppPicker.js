@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         color:Theme.colors.appLameS
     },
     text:{
-        flex:1
+        flex:1,
     },
     modalIcon:{
         alignSelf:"center",

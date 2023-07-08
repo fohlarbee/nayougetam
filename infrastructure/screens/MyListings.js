@@ -1,9 +1,8 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore"
 import { useContext, useEffect, useState } from "react"
-import { Button, Text } from "react-native"
 import { FlatList } from "react-native-gesture-handler"
-import { CardComponent } from "../components/CardComponent"
 import { ListItem } from "../components/ListItem"
+import ListItemSeparator from "../components/ListItemSeparator"
 import { db } from "../firebase/firebaseConfig"
 import AuthContext from "../Globals/AppContext"
 export function MyListings() {
@@ -34,6 +33,7 @@ export function MyListings() {
      refreshing={false}
      onRefresh={myListings}
      showsVerticalScrollIndicator={false}
+     ItemSeparatorComponent={ListItemSeparator}
      data={listings}
      key={item => item.by}
       renderItem={({item}) => 
@@ -43,7 +43,8 @@ export function MyListings() {
       subTitle={item.description}
       
       />
-      }/>
+      
+      } />
      
     
     </>

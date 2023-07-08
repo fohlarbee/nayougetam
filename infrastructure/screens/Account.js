@@ -1,4 +1,4 @@
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { Screen } from '../components/Screen'
 import { ListItem } from '../components/ListItem'
@@ -40,7 +40,6 @@ const menuItem = [
 ]
 export function Account({navigation}) {
     const {user, setUser, setUserLoggedIn} = useContext(AuthContext);
-    console.log('this is user', user)
     const [image, setImage] = useState(null);
     const [imageUrl, setImageUrl] = useState('');
     
@@ -48,7 +47,6 @@ export function Account({navigation}) {
         const person = authentication?.currentUser?.uid;
         const docRef = doc(db, 'users',person);
         const docSnap =await getDoc(docRef);
-        console.log(docSnap.data().avatar);
         setImage(docSnap.data().avatar);
     }
 

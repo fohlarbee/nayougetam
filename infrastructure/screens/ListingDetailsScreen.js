@@ -1,14 +1,12 @@
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { AppText } from '../components/AppText'
-import { FocusedStatusBar } from '../components/FocusedStatusBar'
 import { Theme } from '../Theme'
 import { ListItem } from '../components/ListItem'
 import { Screen } from '../components/Screen'
 
 export function ListingDetailsScreen({route}) {
     const Listing = route.params
-    console.log(Listing.by)
   return (
     <Screen>
         <ScrollView showsVerticalScrollIndicator={false}>

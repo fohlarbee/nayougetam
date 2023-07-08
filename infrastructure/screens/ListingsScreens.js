@@ -17,24 +17,25 @@ export function ListingsScreens({navigation}) {
 
     const getListings = () => {
         setIsError(false);
-        // setLoading(true);
+        setLoading(true); 
         let funcListings = [];
-       let result = onSnapshot(collection(db, 'listings'), (onSnap) => {
-            onSnap.forEach(item => {
+       const unsubscribe = onSnapshot(collection(db, 'listings'), (onSnap) => {
+            onSnap.docs.forEach(item => {
                 let listingsData = item.data();
                 listingsData.docId = item.id
                 funcListings.push(listingsData);
                 setListings(funcListings)
-                // setLoading(false);
-            }) 
-
-        }, (error) => {
-            if(error){ 
                 setLoading(false);
-                setIsError(true);
-            };
-            // else setIsError(false);
-         }) 
+            }) 
+            // .catch((e) =>{
+            //     if(e){
+            //         setLoading(false);
+            //         setIsError(true);
+            //     }
+            // })
+        });
+        // return unsubscribe();
+         
 
     
     }
@@ -42,6 +43,7 @@ export function ListingsScreens({navigation}) {
 
     useEffect(() => {
        getListings(); 
+
 
     },[] )
 
