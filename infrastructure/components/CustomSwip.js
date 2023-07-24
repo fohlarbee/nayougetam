@@ -1,19 +1,21 @@
-import { View, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native'
+import { View, 
+    StyleSheet, 
+    Image, 
+    ImageBackground, 
+    TouchableOpacity } 
+    from 'react-native'
 import React from 'react'
-import { ListItem } from '../components/ListItem'
 
-import { Swipeable, TouchableHighlight } from 'react-native-gesture-handler';
-import {MaterialCommunityIcons as Icon} from "@expo/vector-icons"
+import {TouchableHighlight } from 'react-native-gesture-handler';
 import {SimpleLineIcons as Icons} from "@expo/vector-icons"
 import { Theme } from '../Theme';
 
-const Test = ({ImageComponent, image, renderLeftActions, renderRightActions}) => {
+ export const CustomSwip = ({ImageComponent, image, renderLeftActions, renderRightActions}) => {
   return (
     <View renderLeftActions={renderLeftActions} renderRightActions={renderRightActions}> 
        <TouchableHighlight underlayColor={Theme.colors.appLame}>
        <View style={styles.container}>
                 {ImageComponent}
-               {/* {image && <Image source={{uri:image}} style={styles.image}/>}  */}
                {image && <ImageBackground source={{uri:image}} style={styles.image}>
                     <View style={styles.holder}>
                         <TouchableOpacity 
@@ -32,11 +34,8 @@ const Test = ({ImageComponent, image, renderLeftActions, renderRightActions}) =>
                    
                 </ImageBackground>}
                 <View style={styles.ownerHolder}>
-                    {/* <AppText inputText={title} stylesLing={styles.name} numberOfLines={1} /> */}
-                   {/* {subTitle && <AppText inputText={subTitle} stylesLing={styles.listing} noOfLines={2}/>} */}
                     
                 </View>
-                {/* <MaterialCommunityIcons name='chevron-right' size={20} color={Theme.colors.dark}/> */}
         </View>
 
        </TouchableHighlight>
@@ -65,4 +64,3 @@ const styles = StyleSheet.create({
     }
 
 })
-export default Test

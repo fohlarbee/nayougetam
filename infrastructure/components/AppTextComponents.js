@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, View } from 'react-native'
 import React from 'react';
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import { Theme } from '../Theme';
@@ -16,9 +16,8 @@ export function AppTextComponents({icon, placeholder, width = "100%", ...otherPr
 
 const styles = StyleSheet.create({
     container:{
-        // flex:1,
-        backgroundColor:Theme.colors.light,
         borderRadius:5,
+        backgroundColor:'#eee',
         flexDirection:"row",
         padding:15,
         marginVertical:10,
@@ -32,8 +31,6 @@ const styles = StyleSheet.create({
         fontFamily:Platform.OS === "andriod" ? "Lato" : "Avenir",
         width:"100%",
         color:Theme.colors.dark
-    
-
     },
     icon:{
         marginRight:10,

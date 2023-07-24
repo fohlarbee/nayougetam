@@ -1,6 +1,13 @@
-import { Platform, StyleSheet, Text } from 'react-native'
+import { Platform, 
+    StyleSheet, 
+    Text } from 'react-native'
 
-export function AppText({inputText, stylesLing, onPress, placeholder, numberOfLines}) {
+export function AppText({
+    inputText, 
+    stylesLing, 
+    onPress, 
+    placeholder, 
+    numberOfLines}) {
   return (
       <Text style={[styles.fonts, stylesLing]} onPress={onPress} numberOfLines={numberOfLines}>{inputText} {placeholder}</Text>
 

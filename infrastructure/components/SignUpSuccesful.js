@@ -1,5 +1,8 @@
 import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, {useContext, useState} from 'react';
+
+import LottieView from 'lottie-react-native';
+
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import { Theme } from '../Theme';
 import { AppContext } from '../Globals/AppContext';
@@ -11,10 +14,16 @@ export function SignUpSuccesful  ({successfulSwitch}) {
     <Modal visible={successfulSwitch} animationType='slide' transparent>
             <TouchableOpacity style={styles.touchable}>
             <View style={styles.modalContent}>
-                <MaterialCommunityIcons name='check-circle' size={100} color='blue'/>
+                <LottieView
+                source={require('../../assets/animation/done.json')}
+                loop
+                autoPlay
+                />
+                {/* <MaterialCommunityIcons name='check-circle' size={100} color='blue'/>
                 <Text style={styles.text}>Account creation succesful</Text>
-                <Text style={styles.subText}>LOGIN</Text>
+                <Text style={styles.subText}>LOGIN</Text> */}
             </View>
+
             </TouchableOpacity>
     </Modal>
   )

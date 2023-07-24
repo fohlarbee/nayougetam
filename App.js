@@ -9,9 +9,6 @@ import AppNavigator from './infrastructure/navigation/AppNavigator';
 import OfflineNotice from './infrastructure/components/OfflineNotice';
 import storage from './infrastructure/auth/storage';
 import * as SplashScreen from 'expo-splash-screen'
-import Test  from './infrastructure/screens/Test';
-import Testtwo from './infrastructure/screens/Testtwo';
-
 
 
 
@@ -59,18 +56,16 @@ export default function App() {
   }, [restoreToken]);
 
   return (
-    <Testtwo/>
    
-    // <>
-    //   <OfflineNotice/>
+    <>
+      <OfflineNotice/>
 
-    //   <AuthContext.Provider value={{ userLoggedIn, setUserLoggedIn, user, setUser}}>
-    //     <NavigationContainer theme={navigationTheme}>
-    //         {/* <AppNavigator/> */}
-    //       {user && userLoggedIn === true ? <AppNavigator/> : <AuthNavigator/>}
-    //     </NavigationContainer>
-    //   </AuthContext.Provider>
-    // </>
+      <AuthContext.Provider value={{ userLoggedIn, setUserLoggedIn, user, setUser}}>
+        <NavigationContainer theme={navigationTheme}>
+          {user && userLoggedIn === true ? <AppNavigator/> : <AuthNavigator/>}
+        </NavigationContainer>
+      </AuthContext.Provider>
+    </>
   );
 }
 

@@ -1,4 +1,8 @@
-import { FlatList, Modal, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
+import { FlatList, 
+    Modal, 
+    StyleSheet, 
+    TouchableWithoutFeedback, 
+    View } from 'react-native'
 import React, { useState } from 'react';
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import { Theme } from '../Theme';
@@ -22,7 +26,6 @@ export function AppPicker({icon, numberOfColumns = 1, PickerItemComponent = Pick
                 {icon && <MaterialCommunityIcons name={icon} size={20} color={Theme.colors.appDull} style={styles.icon}/> }
                 {selectedItem ? <AppText placeholder={selectedItem.label} stylesLing={[styles.textInput, styles.text]} /> 
                 : <AppText placeholder={placeholder} stylesLing={[styles.textInput, styles.placeholder]}/>}
-                <MaterialCommunityIcons name="chevron-down" size={20} color={Theme.colors.appDull} />
             </View>
         </TouchableWithoutFeedback>
         <Screen>
@@ -53,18 +56,16 @@ export function AppPicker({icon, numberOfColumns = 1, PickerItemComponent = Pick
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:Theme.colors.light,
         borderRadius:5,
-        // width:"100%",
+        backgroundColor:'#eee',
         flexDirection:"row",
         padding:15,
-        // marginVertical:5,
         borderWidth:0.5,
         borderColor:Theme.colors.appBlue
     },
     textInput:{
         fontSize:25,
-        fontFamily:Platform.OS === "andriod" ? "Lato" : "Roboto",
+        fontFamily:Platform.OS === "andriod" ? "Lato" : "Avenir",
         width:"100%",
         color:Theme.colors.dark
 

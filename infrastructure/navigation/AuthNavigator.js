@@ -13,8 +13,8 @@ export const AuthNavigator = () => {
     return(
         <Stack.Navigator initialRouteName="welcome" screenOptions={{headerShown:false}}>
             <Stack.Screen name="welcome" component={Welcome}/>
-            <Stack.Screen name="Signup" component={Signup}/>
             <Stack.Screen name="Login" component={Login}/>
+            <Stack.Screen name="Signup" component={Signup}/>
 
         </Stack.Navigator>
     )

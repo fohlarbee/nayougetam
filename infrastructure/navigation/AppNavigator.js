@@ -11,13 +11,10 @@ import { TabButton } from './TabButton';
 import * as Notifications from 'expo-notifications'
 import { doc, updateDoc } from 'firebase/firestore';
 import { authentication, db } from '../firebase/firebaseConfig';
-import AuthContext from '../Globals/AppContext';
 
 
 const Tab = createBottomTabNavigator();
-    // bhjnm
 const AppNavigator = () => {
-    // const {user} = useContext(AuthContext);
     const user = authentication?.currentUser?.uid
 
 
@@ -44,6 +41,7 @@ const AppNavigator = () => {
             name="Feed" 
             component={FeedNavigator}
             options={{
+                // headerShown:true,
                 
                     tabBarIcon:({size, color}) => 
                     <MaterialCommunityIcons name='home' size={size} color={Theme.colors.appBlue}/>
@@ -51,10 +49,11 @@ const AppNavigator = () => {
             }}
             />
             <Tab.Screen 
-            name="ListingEdit" 
+            name="New Listing" 
             component={ListingEditScreen}
             options={ ({navigation}) => ({
-                tabBarButton:() => <TabButton onPress={() => navigation.navigate('ListingEdit')}/>,
+                headerShown:true,
+                tabBarButton:() => <TabButton onPress={() => navigation.navigate('New Listing')}/>,
                 
                 tabBarIcon:({size, color}) => 
                 <MaterialCommunityIcons name='plus-circle' size={size} color={Theme.colors.appBlue}/>

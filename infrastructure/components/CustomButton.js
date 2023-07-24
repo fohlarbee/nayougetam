@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 export function CustomButton({actionText, onPress, styling}) {

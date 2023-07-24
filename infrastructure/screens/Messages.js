@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { ListItem } from '../components/ListItem'
 import ListItemSeparator from '../components/ListItemSeparator'
@@ -33,7 +33,6 @@ export function Messages() {
     }
   return (
     <Screen style={styles.messages}>
-        {/* <View style={{backgroundColor:'#fff', flex:1, marginHorizontal:10}}> */}
 
             <FlatList
                 data={messages}
@@ -47,7 +46,6 @@ export function Messages() {
                     onPress={() => console.log(item)}
                     title={item.title}
                     subTitle={item.description}
-                    // image={item.image}
                     ImageComponent={<Icon name='message' backgroundColor={Theme.colors.appBlue}/> }
                     
                     
@@ -66,15 +64,8 @@ export function Messages() {
                     ])
                 }}
             />
-        {/* </View> */}
 
-        {/* <ListItem title="I just dey" ImageComponent={<Icon name="trash-can"/>}/> */}
-        {/* <Icon name="message" /> */}
     </Screen>
-
-    // <SafeAreaView style={styles.areaView}>
-       
-    // </SafeAreaView>
   )
 }
 

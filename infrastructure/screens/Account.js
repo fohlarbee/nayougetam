@@ -42,11 +42,13 @@ export function Account({navigation}) {
     const {user, setUser, setUserLoggedIn} = useContext(AuthContext);
     const [image, setImage] = useState(null);
     const [imageUrl, setImageUrl] = useState('');
+    const [userName, setUserName] = useState('');
     
     const getAvater = async () => {
         const person = authentication?.currentUser?.uid;
         const docRef = doc(db, 'users',person);
         const docSnap =await getDoc(docRef);
+        setUserName(docSnap.data().username)
         setImage(docSnap.data().avatar);
     }
 
@@ -101,7 +103,6 @@ export function Account({navigation}) {
 
             } catch (error) {
                 console.log(error)
-                // throw Error('something happened', error)
             }
         }
 
@@ -109,17 +110,18 @@ export function Account({navigation}) {
 ////////////////////////////////////////////
     const logOut = async() => {
         setUserLoggedIn(null);
-        storage.removeToken();         
+        storage.removeToken()
+        
      }
 /////////////////////////////////////////////
   return (
     <Screen style={styles.screen}>
         <View style={styles.container}>
             <ListItem 
-                title="Folaranmi Olnarewaju" 
+                title={userName} 
                 subTitle={user.email}
                 ImageComponent={
-                <Icon name='account' size={70} 
+                <Icon name='account-edit' size={70} 
                 backgroundColor={Theme.colors.appBlue}
                 onPress={updateAvater}
                 image={image}
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
         marginVertical:10,
     },
     screen:{
-        backgroundColor:Theme.colors.light
+        backgroundColor:'#eee'
 
     }
 })

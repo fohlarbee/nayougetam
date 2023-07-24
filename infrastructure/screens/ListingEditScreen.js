@@ -1,4 +1,4 @@
-import { Alert, ScrollView, StyleSheet} from 'react-native'
+import {ScrollView, StyleSheet} from 'react-native'
 import React, { useContext, useState} from 'react'
 import { Screen } from '../components/Screen';
 import { AppFormField } from '../components/AppFormField';
@@ -10,7 +10,7 @@ import CategoryPickerItem from '../components/CategoryPickerItem';
 import * as Yup from "yup";
 import FormImagePicker from '../components/FormImagePicker';
 import { addDoc, collection } from 'firebase/firestore';
-import { app, db } from '../firebase/firebaseConfig';
+import { app, authentication, db } from '../firebase/firebaseConfig';
 import useLocation from '../hooks/useLocation';
 import AuthContext from '../Globals/AppContext';
 import ActivityIndicator from '../components/ActivityIndicator';
@@ -19,9 +19,9 @@ import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 
 
 const categories = [
-    {label:"Shoes", value:1, backgroundColor:"#40513B", icon:"table-furniture"},
-    {label:"Cloths", value:2, backgroundColor:"green", icon:"tshirt-crew"},
-    {label:"Stationeries", value:3, backgroundColor:"#A459D1", icon:"book"},
+    {label:"Laptops", value:1, backgroundColor:"#40513B", icon:"table-furniture"},
+    {label:"Phones", value:2, backgroundColor:"green", icon:"tshirt-crew"},
+    {label:"Gadgets", value:3, backgroundColor:"#A459D1", icon:"book"},
     {label:"Jewerie", value:4, backgroundColor:"#4D455D", icon:"lock"},
     {label:"Handouts", value:5, backgroundColor:"#E96479", icon:"lock"},
     {label:"Equipments", value:6, backgroundColor:"#7DB9B6", icon:"lock"},
@@ -32,7 +32,7 @@ const categories = [
 
 const validationSchema = Yup.object().shape({
   title:Yup.string().required().min(1).label("Title"),
-  price: Yup.number().required().min(1).max(10000).label("Price"),
+  price: Yup.number().required().min(1).max(1000000).label("Price"),
   description:Yup.string().required().min(10).label("Description"),
   category:Yup.object().required().nullable().label("Category"),
   images:Yup.array().min(1, 'Please select at lease one Image'),
@@ -63,11 +63,9 @@ const metadata = {
 
 export function ListingEditScreen() {
     const [onUpload, setOnUpload] = useState(false);
-    const [onUploadIndex, setOnUploadIndex] = useState(0);
-    const {user} = useContext(AuthContext);
-    const [posting, setPosting] = useState('Upload')
     const [imagesUrls, setImagesUrls] = useState([])
     const location = useLocation();
+    const user = authentication?.currentUser?.uid;
   
 
   
@@ -161,6 +159,7 @@ export function ListingEditScreen() {
         <ActivityIndicator visible={onUpload}/>
 
         <ScrollView>
+        
           <AppForm
 
               initialValues={{
@@ -175,14 +174,7 @@ export function ListingEditScreen() {
                 setTimeout(() => {
                   handleSubmit(values, resetForm)
                 }, 10000);
-                  //  useUrls.useUrls(values)
-                // setTi meout(() => {
-                //  const urls = useHandleSubmit(values)
-
-                  // handleSubmit(values,location, resetForm)
-                  // console.log(values.images)
-                  // handleSubmit(values);
-                // }, 3000);
+                 
               }}
               validationSchema={validationSchema}
           >
@@ -224,5 +216,9 @@ export function ListingEditScreen() {
 const styles = StyleSheet.create({
   btn:{
     marginBottom:50
+  },
+  container:{
+    backgroundColor:'#eee',
+    marginTop:5
   }
 })

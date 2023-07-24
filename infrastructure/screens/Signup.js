@@ -1,5 +1,5 @@
 import { Alert, Dimensions, ScrollView, StyleSheet, Text } from 'react-native'
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { AppFormField } from '../components/AppFormField';
 import { Screen } from '../components/Screen';
 import AppForm from '../components/AppForm';
@@ -11,17 +11,11 @@ import { authentication, db } from '../firebase/firebaseConfig';
 import { setDoc, doc } from 'firebase/firestore';
 import ActivityIndicator from '../components/ActivityIndicator';
 
-
-
-
-
-
 const validationSchema = Yup.object().shape({
   username:Yup.string().required().min(5).label("Username"),
   email: Yup.string().required().email().label("Email"),
   number: Yup.number().required().label("PhoneNumber"),
   password: Yup.string().required().min(6).label("Password")
-
 
 })
 
@@ -31,8 +25,10 @@ export function Signup({navigation}) {
     const [visible, setVisible] = useState(false);
 
     const registerUser = (values) => {
-      setVisible(true);
-      const userDetails = {
+     
+      try {
+       setVisible(true);
+       const userDetails = {
         email: values.email,
         expoPushToken:'',
         password:values.password,
@@ -40,8 +36,8 @@ export function Signup({navigation}) {
         username:values.username,
         number:values.number,
 
-      }
-      try {
+        }
+
         createUserWithEmailAndPassword(authentication, values.email, values.password)
       .then(() => {
         onAuthStateChanged(authentication, (user) => {
@@ -56,7 +52,7 @@ export function Signup({navigation}) {
       })
       .then(() => {
         setTimeout(() => {
-            navigation.goBack('welcome')
+            navigation.goBack('Login')
         }, 4000);
       })
       } catch (error) {
@@ -71,7 +67,7 @@ export function Signup({navigation}) {
     
 
   return (
-    <Screen>
+    <Screen style={styles.areaView}>
       <ActivityIndicator visible={visible}/>
       <ScrollView>
          <Text style={styles.headerText}>Create an account</Text>
@@ -87,7 +83,6 @@ export function Signup({navigation}) {
               password:""
             }}
             onSubmit={(values) => {
-              // setUserDocs(values)
               setTimeout(() => {
                 registerUser(values)
               }, 3000);
@@ -120,6 +115,7 @@ const {width, height} = Dimensions.get("window")
 const styles = StyleSheet.create({
   areaView:{
     flex:1,
+    backgroundColor:'#eee'
   },
   container:{
     flex:1,
@@ -127,7 +123,8 @@ const styles = StyleSheet.create({
     height:height
   },
   headerText:{
-    fontSize:30,
+    fontStyle:"Poppins",
+    fontSize:20,
     alignSelf:"center",
     marginTop:40,
     fontWeight:"bold",
@@ -137,11 +134,12 @@ const styles = StyleSheet.create({
     alignSelf:"center",
     marginTop:1,
     fontStyle:"Poppins",
+    
   },
   alreadyHave:{
     textAlign:"center",
     marginTop:15,
-    fontSize:20,
+    fontSize:8,
     marginBottom:15,
     color:"#160062"
   

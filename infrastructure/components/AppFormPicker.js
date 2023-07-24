@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 import { useFormikContext } from 'formik'
@@ -23,5 +22,3 @@ export function AppFormPicker({items, icon, name, width, PickerItemComponent, nu
     </>
   )
 }
-
-const styles = StyleSheet.create({})

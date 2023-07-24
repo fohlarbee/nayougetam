@@ -56,7 +56,8 @@ export function ImageInput({imageUri, onChangeImage}) {
 const styles = StyleSheet.create({
     container:{
         alignItems:'center',
-        backgroundColor:Theme.colors.light,
+        // backgroundColor:Theme.colors.light,
+        backgroundColor:'#eee',
         borderColor:Theme.colors.appBlue,
         borderRadius:15,
         borderWidth:0.5,

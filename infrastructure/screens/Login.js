@@ -1,4 +1,4 @@
-import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import * as Yup from "yup";
@@ -9,11 +9,14 @@ import { AppFormField } from '../components/AppFormField';
 import { SubmitButton } from '../components/SubmitButton';
 import AppForm from '../components/AppForm';
 import { Screen } from '../components/Screen';
-import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { authentication } from '../firebase/firebaseConfig';
 import AuthContext from '../Globals/AppContext';
 import ActivityIndicator from '../components/ActivityIndicator';
 import storage from '../auth/storage';
+import { Theme } from '../Theme';
+import LottieView from 'lottie-react-native';
+
 
 
 
@@ -32,19 +35,20 @@ export function Login({navigation}) {
     try {
       // setVisible(true);
       signInWithEmailAndPassword(authentication, values.email, values.password)
-      onAuthStateChanged(authentication, () => {
-        const user = authentication?.currentUser?.uid
-        setUser(user);
-        setUserLoggedIn(true);
-        storage.storeToken(user);
-        // setVisible(false);
-      })
-      
-      
-      
+        .then((userCredential) => {
+          const user = userCredential.user
+          setUser(user);
+          setUserLoggedIn(true);
+          storage.storeToken(user);
+          setVisible(false);
+        })      
+        .catch(() => {
+          Alert.alert('Invalid Credentials')
+          setVisible(false);
+        })
     } catch (error) {
-      alert(error.message);
       setVisible(false);
+
 
     }
   }
@@ -54,11 +58,16 @@ export function Login({navigation}) {
     <Screen style={styles.areaView}>
       <ActivityIndicator visible={visible}/>
         <ScrollView>
-                <View style={{width:121, height:121, backgroundColor:"#fff",alignSelf:"center", marginTop:70, borderRadius:20 }}
+                {/* <View style={{width:121, height:121,alignSelf:"center", marginTop:70, borderRadius:20 }}
                 >
-                    <MaterialCommunityIcons name="cart-variant" size={100} color="black" style={{position:"absolute", alignSelf:"center",marginTop:9}}/>
-
-                </View>
+                  <LottieView
+                    source={require('../../assets/animation/buyit.json')}
+                    loop
+                    autoPlay
+                    style={{width:100, height:100, alignSelf:'center'}}
+                  />
+                </View> */}
+                <Text style={styles.subText}>Home for your needs</Text>
                 <View style={styles.loginFormHolder}>
                     <View>
                       <Text style={styles.headText}>Hi, Welcome Back</Text>
@@ -88,8 +97,8 @@ export function Login({navigation}) {
                             
                             <Text style={{
                               textAlign:"right", 
-                              marginRight:45, 
-                              color:"#E86969", 
+                              marginRight:0, 
+                              color:Theme.colors.danger, 
                               marginTop:5, 
                               fontSize:15
                               }}>Forgot Password?
@@ -123,11 +132,12 @@ const styles = StyleSheet.create({
       flex:1,
       width:width,
       bottom:0,
-      backgroundColor:"#fff",
+      backgroundColor:"#eee",
       alignSelf:"center",
-      marginTop:63,
+      marginTop:120,
       borderTopLeftRadius:56,
       borderTopRightRadius:56
+      
     },
     headText:{
       alignSelf:"center",
@@ -142,6 +152,12 @@ const styles = StyleSheet.create({
       color:"#160062"
     },
     erroMessageStyle:{
-      marginLeft:50
+      marginLeft:50,
+    },
+    subText:{
+      color:Theme.colors.white,
+      textAlign:'center',
+      top:0,
+      letterSpacing:6
     }
 })
