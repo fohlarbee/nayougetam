@@ -13,7 +13,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { app, authentication, db } from '../firebase/firebaseConfig';
 import useLocation from '../hooks/useLocation';
 import AuthContext from '../Globals/AppContext';
-import ActivityIndicator from '../components/ActivityIndicator';
+// import ActivityIndicator from '../components/ActivityIndicator';
 import * as Notifications from 'expo-notifications';
 import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 
@@ -156,7 +156,7 @@ export function ListingEditScreen() {
   return (
     <>
       <Screen style={styles.container}>
-        <ActivityIndicator visible={onUpload}/>
+        {/* <ActivityIndicator visible={onUpload}/> */}
 
         <ScrollView>
         

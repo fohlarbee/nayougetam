@@ -8,7 +8,6 @@ import { Screen } from '../components/Screen';
 import { doc,getDoc,onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig'
 import { CustomButton } from '../components/CustomButton'
-import { CustomSwip } from '../components/CustomSwip'
 
 export function ListingDetailsScreen({route}) {
     const Listing = route.params
@@ -67,7 +66,7 @@ export function ListingDetailsScreen({route}) {
   return (
     <Screen>
         <ScrollView showsVerticalScrollIndicator={false}>
-            <CustomSwip
+            {/* <CustomSwip
                 image={presentImage}
                 renderLeftActions={() => {
                 if (Listing.images.length > counter) {
@@ -93,7 +92,7 @@ export function ListingDetailsScreen({route}) {
 
                     }
                 }}
-            />
+            /> */}
             <View style={styles.detailsContainer}>
                 <AppText stylesLing={styles.title} inputText={Listing.title}/>
                 <AppText stylesLing={styles.price} inputText={'N' + Listing.price}/>

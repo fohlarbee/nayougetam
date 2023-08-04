@@ -1,15 +1,15 @@
-import { Alert, Dimensions, ScrollView, StyleSheet, Text } from 'react-native'
+import { Alert, Dimensions, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
 import { AppFormField } from '../components/AppFormField';
 import { Screen } from '../components/Screen';
 import AppForm from '../components/AppForm';
 import * as Yup from "yup";
 import { SubmitButton } from '../components/SubmitButton';
-import { SignUpSuccesful } from '../components/SignUpSuccesful';
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { authentication, db } from '../firebase/firebaseConfig';
 import { setDoc, doc } from 'firebase/firestore';
-import ActivityIndicator from '../components/ActivityIndicator';
+import { Theme } from '../Theme';
+import { Text } from '@rneui/themed';
 
 const validationSchema = Yup.object().shape({
   username:Yup.string().required().min(5).label("Username"),
@@ -68,45 +68,55 @@ export function Signup({navigation}) {
 
   return (
     <Screen style={styles.areaView}>
-      <ActivityIndicator visible={visible}/>
       <ScrollView>
-         <Text style={styles.headerText}>Create an account</Text>
-         <Text style={styles.headerLilText}>Sell and buy Products anywhere around Jos</Text>
+        <View style={{marginHorizontal:25, marginVertical:5}}>
+          <Text h3 style={{fontWeight:'bold', marginBottom:10}}>Register Account</Text>
+          <Text h5 style={{color:'rgba(0,0,0,0.3)'}}>Please register an account</Text>
+        </View>
+        <View>
+          <AppForm 
+          initialValues={{username:'', password:'', number:''}}
+          validationSchema={validationSchema}
+
+          >
+            <Text h5 style={{ marginHorizontal:25, fontWeight:'500'}}>Username</Text>
+            <AppFormField
+            name='username'
+            maxLength={20}
+              placeholder='Create a username'
+              icon='account-outline'
+            />
+            <Text h5 style={{ marginHorizontal:25, fontWeight:'500'}}>Mobile number</Text>
+
+            <AppFormField
+            keyboardType='numeric'
+            maxLength={11}
+            name='number'
+            placeholder='Enter your number'
+            icon='phone-outline'
+            />
+            <Text h5 style={{ marginHorizontal:25, fontWeight:'500'}}>Password</Text>
+            <AppFormField
+              name='password'
+              maxLength={20}
+              placeholder='Login with password'
+              icon='lock-outline'
+              secureTextEntry
+              
+            />
+           
+            <SubmitButton actionText='Sign In' textColor='#fff' color='#0e64d2' styling={{marginTop:20}}/>
 
 
-         <AppForm
+          </AppForm>
+        </View>
+        <Text h6 style={{fontWeight:'300', color:'rgba(0,0,0,0.3)', textAlign:'center', lineHeight:20, marginVertical:5}}>Or using other method</Text>
+        <SubmitButton  name='google' size={40} actionText='Sign in with Google' color='rgba(0,0,0,0.07)' styling={{marginBottom:10}}/>
+        <SubmitButton name='facebook' size={40} iconColor={Theme.colors.appBlue} actionText='Sign in with Facebook' />
+        <Text style={styles.alreadyHave}>Already have an account? <Text onPress={() => navigation.navigate("Login")}>Sign In</Text></Text>
 
-            initialValues={{
-              username:"",
-              email:"",
-              number:"",
-              password:""
-            }}
-            onSubmit={(values) => {
-              setTimeout(() => {
-                registerUser(values)
-              }, 3000);
-
-          }
-            }
-            validationSchema={validationSchema}
-            >
-              <AppFormField maxLength={255} name="username" placeholder="Username" icon="account-plus"/>
-              <AppFormField
-                  keyboardType="email"
-                  name="email"
-                  placeholder="Email"
-                  icon="email"
-              />
-              <AppFormField name="number" icon="phone" maxLength={11} keyboardType="numeric" placeholder="Phone number"/>
-              <AppFormField name="password" maxLength={15} placeholder="Password" secureTextEntry/>
-              <SubmitButton actionText="Sign Up"/>
-              <Text style={styles.alreadyHave}>Already have an account? <Text onPress={() => navigation.navigate("Login")}>Sign In</Text></Text>
-
-
-            </AppForm>
-            <SignUpSuccesful successfulSwitch={successfulSwitch}/>
-            </ScrollView>
+      </ScrollView>
+     
     </Screen>
    
   )
@@ -115,27 +125,9 @@ const {width, height} = Dimensions.get("window")
 const styles = StyleSheet.create({
   areaView:{
     flex:1,
-    backgroundColor:'#eee'
+    backgroundColor:'#fff'
   },
-  container:{
-    flex:1,
-    backgroundColor:"#fff",
-    height:height
-  },
-  headerText:{
-    fontStyle:"Poppins",
-    fontSize:20,
-    alignSelf:"center",
-    marginTop:40,
-    fontWeight:"bold",
-    letterSpacing:6,
-  },
-  headerLilText:{
-    alignSelf:"center",
-    marginTop:1,
-    fontStyle:"Poppins",
-    
-  },
+  
   alreadyHave:{
     textAlign:"center",
     marginTop:15,
@@ -144,12 +136,5 @@ const styles = StyleSheet.create({
     color:"#160062"
   
   },
-  alreadyHave:{
-    textAlign:"center",
-    marginTop:15,
-    fontSize:20,
-    marginBottom:15,
-    color:"#160062"
   
-  }
 })

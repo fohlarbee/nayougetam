@@ -24,6 +24,9 @@ export function AppFormField({icon, placeholder, width, name, ...otherProps}) {
 }
 const styles = StyleSheet.create({
   errorMessageStyle:{
-      color:Theme.colors.danger
+      color:Theme.colors.danger,
+      fontSize:12,
+      marginHorizontal:20
+
   }
 })

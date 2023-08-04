@@ -5,7 +5,6 @@ import { ListItem } from "../components/ListItem"
 import ListItemSeparator from "../components/ListItemSeparator"
 import { authentication, db } from "../firebase/firebaseConfig"
 import AuthContext from "../Globals/AppContext";
-import LottieView from 'lottie-react-native';
 import { Dimensions, View } from "react-native"
 
 
@@ -55,12 +54,8 @@ export function MyListings() {
             /> 
             } />)
     :
-        (<LottieView
-        source={require('../../assets/animation/noResults.json')}
-        loop
-        autoPlay
-        style={{ width:150, alignSelf:'center',marginTop:height/9}}
-        />)
+       
+    null
         
     }
        

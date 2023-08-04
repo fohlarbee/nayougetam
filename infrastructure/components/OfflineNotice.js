@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import { AppText } from './AppText'
 import { Theme } from '../Theme';
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     container:{
         alignItems:'center', 
         backgroundColor:Theme.colors.primary,
-        height:60,
+        height:50,
         justifyContent:'center',
         top:  Constants.statusBarHeight,
         width:'100%',

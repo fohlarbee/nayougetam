@@ -19,11 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    },
-    "expo": {
-      "scheme": "myapp"
-    },
-    
+    },  
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
