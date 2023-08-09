@@ -1,9 +1,8 @@
-import { StyleSheet, View, KeyboardAvoidingView, Platform, Alert, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, KeyboardAvoidingView, Platform, Alert} from 'react-native'
 import React, { useState } from 'react';
 import { Text} from '@rneui/themed';
-import { Screen } from '../components/Screen';
+import  Screen from '../components/Screen';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons'
-// import OTPInputView from '@twotalltotems/react-native-otp-input';
 import OTPInputView from '../components/OTPInputView';
 import { SubmitButton } from '../components/SubmitButton';
 
@@ -30,18 +29,21 @@ export default function Verification() {
     <Screen>
         <KeyboardAvoidingView 
         style={styles.container}
+        focusable
+        enabled
+        
         behavior={Platform.OS === 'ios' ? '' : ''}
 
         >
             
-            <Text h4 style={{marginTop:20, fontWeight:'bold', color:'rgba(44,2,4,1)'}}>Verification</Text>
+            <Text h4 style={{ fontWeight:'600', color:'#404040'}}>VERIFICATION</Text>
             <View style={styles.wrapper}>
                 <Icon name='message-text-lock' size={40} color='#fff' style={{fontWeight:'700'}}/>
             </View>
             <View style={{alignSelf:'center'}}>
-                    <Text h4 style={{fontWeight:'bold',textAlign:'center'}}>Verification Code</Text>
-                    <Text small style={{marginTop:5, textAlign:'center'}}>We have sent a 4 digit code verification to</Text>
-                    <Text small style={{marginTop:5, textAlign:'center'}}>081********630</Text>
+                    <Text h4 style={{fontWeight:'500',textAlign:'center'}}>Verification Code</Text>
+                    <Text small style={{marginTop:5, textAlign:'center',color:'rgba(0,0,0,0.5)'}}>We have sent a 4 digit code verification to</Text>
+                    <Text small style={{ textAlign:'center', color:'rgba(0,0,0,0.5)'}}>081********630</Text>
 
             </View>
             
@@ -89,7 +91,7 @@ export default function Verification() {
              actionText='Verify' 
              color='#8062D6' 
              textColor='#fff'
-             styling={{marginHorizontal:30, marginVertical:30}}
+             styling={{marginHorizontal:30, marginTop:20, marginBottom:5}}
              />
                 <Text onPress={()=> Alert.alert('Code sent')} small style={{color:Theme.colors.appBlue}}>Resend code</Text>
             
@@ -105,6 +107,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         justifyContent:'center',
         alignItems:'center',
+        marginTop:40
     },
     wrapper :{
         padding:40,
@@ -112,10 +115,10 @@ const styles = StyleSheet.create({
         borderRadius:100,
         shadowColor:'rgba(0,0,0,0.2)',
         shadowOpacity:0.5,
-        // elevation:'rgba(0,0,0,0.2)',
+        elevation: Platform.OS == 'android' ? 'rgba(0,0,0,0.2)' : null,
         shadowOffset:{ width:30},
         shadowRadius:1,
-        marginVertical:40
+        marginVertical:30
         
 
     },

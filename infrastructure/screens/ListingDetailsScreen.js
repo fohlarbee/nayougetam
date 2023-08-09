@@ -1,42 +1,28 @@
 import {useState, useEffect} from 'react'
-import { ScrollView, StyleSheet, View, Linking, Alert} from 'react-native'
+import { ScrollView, StyleSheet, View, Linking, Alert, Image, Text, Dimensions} from 'react-native'
 import React from 'react'
 import { AppText } from '../components/AppText'
 import { Theme } from '../Theme'
-import { ListItem } from '../components/ListItem'
-import { Screen } from '../components/Screen';
-import { doc,getDoc,onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase/firebaseConfig'
-import { CustomButton } from '../components/CustomButton'
+import  Screen  from '../components/Screen';
+import { images } from './ListingsScreens'
+import { SubmitButton } from '../components/SubmitButton'
 
 export function ListingDetailsScreen({route}) {
-    const Listing = route.params
-    const [presentImage, setPresentImage] = useState(Listing.images[0]);
-    const [counter, setCounter] = useState(0);
-    const [image,setImage] = useState(null);
-    const [number, setNumber] = useState(null);
-    const [userName, setUserName] = useState(null);
-    const [email, setEmail] = useState(null);
-     
-    const getAvater = async () => {
-        const person = Listing.by;
-        const yeep = person.toString();
+    const [imgActive, setImgActive] = useState(0);
 
-        console.log(yeep)
-        const docRef = doc(db, 'users',person);
-        const docSnap = await getDoc(docRef);
-        console.log(docSnap.data())
-
-        // const docSnap =await getDoc(docRef);
-        // console.log(docSnap)
-        // setUserName(docSnap.data().username)
-        // setImage(docSnap.data().avatar);
-        // setNumber(docSnap.data().number)
-        // setEmail(docSnap.data().email)
+    const onChange = (nativeEvent) => {
+        if(nativeEvent){
+            const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
+            if(slide != imgActive){
+                setImgActive(slide);
+                        
+            }
         }
-    useEffect(() => {
-        getAvater();
-     },[])
+    }
+
+
+     
+
 
     const sendWhatsAppMessage = () => {
     const phoneNumber = '+348036086147';
@@ -65,47 +51,43 @@ export function ListingDetailsScreen({route}) {
 
   return (
     <Screen>
-        <ScrollView showsVerticalScrollIndicator={false}>
-            {/* <CustomSwip
-                image={presentImage}
-                renderLeftActions={() => {
-                if (Listing.images.length > counter) {
-                    setPresentImage(Listing.images[counter + 1])
-                    setCounter(counter +1)
+        <ScrollView style={{flex:1}} showsVerticalScrollIndicator={false}>
+        <View style={{}} >
+                <ScrollView
+                onScroll={({nativeEvent}) => onChange(nativeEvent)}
+                pagingEnabled
+                horizontal
+                bounces={false}
+                showsHorizontalScrollIndicator={false}
+                
+                >
+                    {images.map((e, index) => 
 
-                    } 
-                    if(Listing.images.length -1  === counter){
-                    setPresentImage(Listing.images[0])
-                    setCounter(0)
+                       ( <Image
+                        key={e}
+                        source={{uri:e}}
+                        resizeMode='stretch'
+                        style={styles.wrap}
 
-                    }
-                }}     
-                renderRightActions={() => {
-                    if (Listing.images.length > counter) {
-                    setPresentImage(Listing.images[counter + 1])
-                    setCounter(counter +1)
+                        />)
+                    )}
+                </ScrollView>
+                <View style={styles.wrapDot}>
+                    {images.map((e, index) => (
+                    <Text key={e}
+                    style={imgActive === index ? styles.dotActive : styles.dot}
+                    >
+                        ●
+                    </Text>
 
-                    } 
-                    if(Listing.images.length -1  === counter){
-                    setPresentImage(Listing.images[0])
-                    setCounter(0)
+                    ))}
 
-                    }
-                }}
-            /> */}
-            <View style={styles.detailsContainer}>
-                <AppText stylesLing={styles.title} inputText={Listing.title}/>
-                <AppText stylesLing={styles.price} inputText={'N' + Listing.price}/>
-                <AppText stylesLing={styles.desc} inputText={Listing.description}/>
-
+                </View>
             </View>
-            <View style={{ marginTop:40}}/>
-            <ListItem title= {userName} subTitle={email} image={image}/>
-            <CustomButton styling={styles.btn} 
-            // onPress={openWhatsAppChat}
-            onPress={sendWhatsAppMessage}
-            actionText='Contact Seller'
-            />
+            <View style={{alignContent:'flex-start', flex:1}}>
+                <SubmitButton color='red' />
+            </View>
+           
         </ScrollView>
     </Screen>
 
@@ -137,5 +119,33 @@ const styles = StyleSheet.create({
     },
     btn:{
         marginBottom:40
-    }
+    },
+    wrap:{
+        width:Dimensions.get('window').width ,
+        height:Dimensions.get('window').height * 0.5,
+        overflow:"hidden",
+        flex:1,
+        borderBottomRightRadius:20,
+        borderBottomLeftRadius:20
+    },
+    wrapDot:{
+        position:'absolute',
+        flexDirection:'row',
+        bottom:0,
+        alignSelf:'center',
+        marginVertical:5,
+        marginLeft:50
+    },
+    dotActive:{
+        marginHorizontal:4,
+        color:Theme.colors.appBlue,
+        fontSize:10
+
+    },
+    dot:{
+        marginHorizontal:4,
+        color:'#fff',
+        fontSize:10
+
+    },
 });

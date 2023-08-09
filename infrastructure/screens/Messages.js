@@ -4,7 +4,7 @@ import { ListItem } from '../components/ListItem'
 import ListItemSeparator from '../components/ListItemSeparator'
 import {ListItemDeleteAction} from '../components/ListItemDeleteAction';
 import { Icon } from '../components/Icon';
-import { Screen } from '../components/Screen';
+import  Screen  from '../components/Screen';
 import { Theme } from '../Theme';
 
 const initialMessages = [

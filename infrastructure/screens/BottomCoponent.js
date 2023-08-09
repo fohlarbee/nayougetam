@@ -27,9 +27,9 @@ export default function BottomCoponent({isBottomSheetVisible, onClose}) {
                     
                    
                    <View style={{justifyContent:'center', alignItems:'center'}}>
-                        <Text h4 style={{fontWeight:'bold'}}>Register Successful</Text>
-                        <Text h6 style={{marginTop:5, color:'rgba(0,0,0,0.5)'}}>Congratulations your account already created</Text>
-                        <Text h6 style={{color:'rgba(0,0,0,0.5)'}}>Please login to get amazing experience</Text>
+                        <Text h4 style={{fontWeight:'600'}}>Register Successful</Text>
+                        <Text  style={{marginTop:5, color:'#404040', fontSize:10}}>Congratulations your account already created</Text>
+                        <Text style={{color:'#404040',fontSize:10}}>Please login to get amazing experience</Text>
                         <TouchableOpacity onPress={onClose}>
                             <Text>Close BottomSheet</Text>
                         </TouchableOpacity>

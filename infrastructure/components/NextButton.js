@@ -47,7 +47,7 @@ export default function NextButton({percentage, scrollTo}) {
     
   return (
     <View style={styles.container}>
-        <Svg width={size} height={size} >
+        <Svg width={size} height={size}>
             <G fill='#fff' rotation='-90'origin={center}>
                 <Circle  stroke={Theme.colors.appBlue} cx={center} cy={center} r={(radius)} strokeWidth={strokeWidth}/>
                 <Circle

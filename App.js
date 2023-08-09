@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import {  StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 
+
 import navigationTheme from './infrastructure/navigation/navigationTheme';
 import AuthContext from './infrastructure/Globals/AppContext';
 import AppNavigator from './infrastructure/navigation/AppNavigator';
@@ -10,11 +11,12 @@ import storage from './infrastructure/auth/storage';
 import * as SplashScreen from 'expo-splash-screen'
 import Onboarding from './infrastructure/screens/Onboarding';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Login } from './infrastructure/screens/Login';
 import { Signup } from './infrastructure/screens/Signup';
 import Verification from './infrastructure/screens/Verification';
 import BottomCoponent from './infrastructure/screens/BottomCoponent';
+import { ListingDetailsScreen } from './infrastructure/screens/ListingDetailsScreen';
 
+import {Login} from './infrastructure/screens/Login'
 
 
 // SplashScreen.preventAutoHideAsync();
@@ -84,18 +86,20 @@ export default function App() {
   return (
     // <BottomCoponent/>
     // <Verification/>
-    // <Login/>
+    <Login/>  
     // <Signup/>
+    // <Onboarding/>
+    // <ListingDetailsScreen/>
     
-    <>
-      <OfflineNotice/>
+    // <>
+    //   <OfflineNotice/>
 
-      <AuthContext.Provider value={{ userLoggedIn, setUserLoggedIn, user, setUser}}>
-        <NavigationContainer theme={navigationTheme}>
-          {loading ? <Loading/> : viewedOnboarding ? <AppNavigator/> : <Onboarding/>}
-        </NavigationContainer>
-      </AuthContext.Provider>
-    </>
+    //   <AuthContext.Provider value={{ userLoggedIn, setUserLoggedIn, user, setUser}}>
+    //     <NavigationContainer theme={navigationTheme}>
+    //       {loading ? <Loading/> : viewedOnboarding ? <AppNavigator/> : <Onboarding/>}
+    //     </NavigationContainer>
+    //   </AuthContext.Provider>
+    // </>
   );
 }
 

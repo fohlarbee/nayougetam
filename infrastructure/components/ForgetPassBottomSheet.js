@@ -9,13 +9,16 @@ import { AppFormField } from './AppFormField';
 import { SubmitButton } from './SubmitButton';
 import { Theme } from '../Theme';
 import { KeyboardAvoidingView } from 'react-native';
+import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+import gestureHandlerRootHOC from 'react-native-gesture-handler';
 
 export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
   const validationSchema = () => Yup.object().shape({
     number: Yup.number().required().label("Phone Number"),
   })
   return (
-    <KeyboardAvoidingView focusable enabled >
+    <NativeViewGestureHandler>
+      <KeyboardAvoidingView focusable enabled >
          <SafeAreaProvider>
         <BottomSheet isVisible={isBottomSheetVisible} containerStyle={{height:'100%'}}
           
@@ -28,36 +31,44 @@ export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
               </View>
               
               <View style={{marginHorizontal:15}}>
-                <Text h4 style={{fontWeight:"600", color:'rgba(0,0,0,0.7)'}}>Create new password</Text>
-                <Text h5 style={{fontWeight:"100"}}>Enter verification code and new password</Text>
-                <Text h5 style={{fontWeight:"600", marginTop:25}}>Confirm Mobile mumber</Text>
+                <Text h4 style={{fontWeight:"500", color:'#404040'}}>Create new password</Text>
+                <Text style={{fontWeight:"300", fontSize:10}}>Enter verification code and new password</Text>
+                <Text h5 style={{fontWeight:"500", marginTop:25, marginHorizontal:5, color:'#404040'}}>Confirm Mobile mumber</Text>
               </View>
                 <AppForm
                   validationSchema={validationSchema}
-                  initialValues={{number:''}}
+                  initialValues={{number:'', code:'', newPassword:''}}
                 >
                     <AppFormField 
                     name='number' 
-                    placeholder='Enter 4 digit code'
+                    placeholder='Mobile number'
                     maxLength={11}
                     keyboardType='numeric'
                     icon='phone-outline'
                     />
                     <TouchableOpacity onPress={() => Alert.alert('Verification code sent to 081*****630')}>
-                        <Text style={{
-                          textAlign:"right", 
-                          marginRight:30, 
-                          color:Theme.colors.appBlueV2,
-                          marginBottom:25, 
-                          fontSize:12
-                          }}>Send code
-                        </Text>
-                    </TouchableOpacity>
+                      <Text style={{
+                        textAlign:"right", 
+                        marginRight:30, 
+                        color:Theme.colors.appBlueV2,
+                        fontSize:12
+                        }}>Send code
+                      </Text>
+                  </TouchableOpacity>
+                  <Text h5 style={{fontWeight:"500", marginHorizontal:25, color:'#404040'}}>Enter code</Text>
+
+                    <AppFormField 
+                    name='number' 
+                    placeholder='Enter 4 digit code'
+                    keyboardType='numeric'
+                    icon='message-text-lock-outline'
+                    />
+                   
                      
-                     <Text h5 style={{fontWeight:"600", marginLeft:20}}>New password</Text>
+                    <Text h5 style={{fontWeight:"500", marginLeft:25, color:'#404040'}}>New password</Text>
 
                      <AppFormField 
-                    name='password' 
+                    name='new password' 
                     placeholder='Create new passoword'
                     icon='lock-outline'
                     secureTextEntry
@@ -91,6 +102,9 @@ export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
         </BottomSheet>
     </SafeAreaProvider>
     </KeyboardAvoidingView>
+
+    </NativeViewGestureHandler>
+    
    
     
   )

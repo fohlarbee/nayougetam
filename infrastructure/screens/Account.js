@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import { Screen } from '../components/Screen'
+import  Screen  from '../components/Screen'
 import { ListItem } from '../components/ListItem'
 import { Theme } from '../Theme'
 import { Icon } from '../components/Icon'

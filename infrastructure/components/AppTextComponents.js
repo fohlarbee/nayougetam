@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     textInput:{
         borderRadius:100,
         fontSize:15,
-        fontFamily:Platform.OS === "andriod" ? "Roboto" : "Roboto",
+        // fontFamily:Platform.OS === "andriod" ? "Roboto" : "Roboto",
         width:"100%",
         color:Theme.colors.dark,
         flex:1,    

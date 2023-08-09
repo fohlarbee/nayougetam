@@ -1,24 +1,25 @@
-import { SafeAreaView, StyleSheet, View } from 'react-native'
-import React from 'react';
-import  Constants from 'expo-constants';
-import { Theme } from '../Theme';
+import { StyleSheet, View, SafeAreaView} from 'react-native'
+import React from 'react'
 
+import { StatusBar } from 'expo-status-bar';
+import  Constants  from 'expo-constants'
 
-export function Screen({children, style}) {
+export default function Screen({ children, style}) {
   return (
-        <SafeAreaView style={[styles.screen, style]}>
-            <View style={[style, styles.styleView]}>{children}</View>
-        </SafeAreaView>
+    <SafeAreaView style={[styles.container, style ]}>
+        <View style={[styles,{flex:1}]}>{children}
+        <StatusBar style="dark" />
+
+        </View>
+
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-    screen:{
-        paddingTop:Constants.statusBarHeight,
+    container:{
+        backgroundColor:'#fff',
         flex:1,
-        backgroundColor:Theme.colors.white
-    },
-    styleView:{
-        flex:1
+        paddingTop: Constants.statusBarHeight,
     }
 })

@@ -8,7 +8,7 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import { Theme } from '../Theme';
 import { Platform } from 'react-native';
 import { AppText } from './AppText';
-import { Screen } from './Screen';
+import  Screen  from './Screen';
 import { PickerItem } from './PickerItem';
 
 const categories = [
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     },
     textInput:{
         fontSize:25,
-        fontFamily:Platform.OS === "andriod" ? "Lato" : "Roboto",
+        // fontFamily:Platform.OS === "andriod" ? "Lato" : "Roboto",
         width:"100%",
         color:Theme.colors.dark
 

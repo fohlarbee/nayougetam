@@ -1,6 +1,6 @@
 import {ScrollView, StyleSheet} from 'react-native'
 import React, { useContext, useState} from 'react'
-import { Screen } from '../components/Screen';
+import  Screen  from '../components/Screen';
 import { AppFormField } from '../components/AppFormField';
 import { AppFormPicker } from '../components/AppFormPicker';
 import { SubmitButton } from '../components/SubmitButton';
