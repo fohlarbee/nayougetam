@@ -32,7 +32,7 @@ export default function Verification() {
         focusable
         enabled
         
-        behavior={Platform.OS === 'ios' ? '' : ''}
+        behavior={Platform.OS === 'ios' ? 'height' : 'height'}
 
         >
             
@@ -114,8 +114,8 @@ const styles = StyleSheet.create({
         backgroundColor:'#8062D6',
         borderRadius:100,
         shadowColor:'rgba(0,0,0,0.2)',
-        shadowOpacity:0.5,
-        elevation: Platform.OS == 'android' ? 'rgba(0,0,0,0.2)' : null,
+        // shadowOpacity:0.5,
+        // elevation: Platform.OS == 'android' ? 'rgba(0,0,0,0.2)' : null,
         shadowOffset:{ width:30},
         shadowRadius:1,
         marginVertical:30

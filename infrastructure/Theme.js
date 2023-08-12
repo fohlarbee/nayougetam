@@ -6,6 +6,7 @@ export const Theme = {
         appLame:"#D6E4E5",
         appLameS:"#497174",
         appBlueV2:"#1877F2",
+        appPurple:'#8062D6',
         appDull:"#160062",
         danger:"#ff5252",
         light:"#f8f4f4",

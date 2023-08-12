@@ -16,7 +16,8 @@ import Verification from './infrastructure/screens/Verification';
 import BottomCoponent from './infrastructure/screens/BottomCoponent';
 import { ListingDetailsScreen } from './infrastructure/screens/ListingDetailsScreen';
 
-import {Login} from './infrastructure/screens/Login'
+import Login  from './infrastructure/screens/Login'
+import { AuthNavigator } from './infrastructure/navigation/AuthNavigator';
 
 
 // SplashScreen.preventAutoHideAsync();
@@ -86,10 +87,14 @@ export default function App() {
   return (
     // <BottomCoponent/>
     // <Verification/>
-    <Login/>  
+    // <Login/>  
     // <Signup/>
     // <Onboarding/>
     // <ListingDetailsScreen/>
+    <NavigationContainer theme={navigationTheme}>
+       {/* <AuthNavigator/> */}
+       <AppNavigator/>
+    </NavigationContainer>
     
     // <>
     //   <OfflineNotice/>

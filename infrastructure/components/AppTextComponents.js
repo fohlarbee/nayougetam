@@ -9,7 +9,7 @@ import { useState } from 'react';
 export function AppTextComponents({icon, placeholder, width = "90%", ...otherProps}) {
     const [isFocused, setIsFocused] = useState(false);
   return (
-    <View style={[styles.container,{width}, isFocused && {borderWidth:1.5}]}  accessible onAccessibilityAction={() => setIsFocused(true)}>
+    <View style={[styles.container,{width}, isFocused && {borderWidth:1.5, borderColor:Theme.colors.appPurple}]}  accessible onAccessibilityAction={() => setIsFocused(true)}>
         { icon && <MaterialCommunityIcons name={icon} size={25} color='rgba(0,0,0,0.5)' style={styles.icon}/>  }
         <TextInput 
         style={[styles.textInput]} 

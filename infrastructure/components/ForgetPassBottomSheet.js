@@ -14,7 +14,9 @@ import gestureHandlerRootHOC from 'react-native-gesture-handler';
 
 export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
   const validationSchema = () => Yup.object().shape({
-    number: Yup.number().required().label("Phone Number"),
+    number: Yup.number().required().label("Mobile Number"),
+    code: Yup.number().required().label("Code"),
+    newPassword: Yup.number().required().label("Phone Number"),
   })
   return (
     <NativeViewGestureHandler>
@@ -25,9 +27,10 @@ export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
          
         >
             <ScrollView style={styles.contentHolder}>
-              <View style={{flexDirection:'row', justifyContent:'center', flex:1}}>
+              <View style={{flexDirection:'row', justifyContent:'center', flex:1, justifyContent:'space-around'}}>
+                <View/>
                 <Octicons name='dash' color='rgba(0,0,0,0.5)' size={55} style={{alignSelf:'center'}}/>
-                <Octicons name='x' color='rgba(0,0,0,0.2)' onPress={onClose} size={30} style={{left:150, marginVertical:12 }}/>
+                <Octicons name='x' color='rgba(0,0,0,0.2)' onPress={onClose} size={30} style={{ marginVertical:12, left:30 }}/>
               </View>
               
               <View style={{marginHorizontal:15}}>
@@ -50,7 +53,7 @@ export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
                       <Text style={{
                         textAlign:"right", 
                         marginRight:30, 
-                        color:Theme.colors.appBlueV2,
+                        color:Theme.colors.appPurple,
                         fontSize:12
                         }}>Send code
                       </Text>
@@ -58,7 +61,8 @@ export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
                   <Text h5 style={{fontWeight:"500", marginHorizontal:25, color:'#404040'}}>Enter code</Text>
 
                     <AppFormField 
-                    name='number' 
+                    name='code' 
+                    maxLength={4}
                     placeholder='Enter 4 digit code'
                     keyboardType='numeric'
                     icon='message-text-lock-outline'
@@ -68,9 +72,10 @@ export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
                     <Text h5 style={{fontWeight:"500", marginLeft:25, color:'#404040'}}>New password</Text>
 
                      <AppFormField 
-                    name='new password' 
+                    name='newPassword' 
                     placeholder='Create new passoword'
                     icon='lock-outline'
+                    
                     secureTextEntry
                     />
 
@@ -88,7 +93,7 @@ export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
                         
                       }}
                     actionText='Create Password'
-                    color={Theme.colors.appBlue}
+                    color={Theme.colors.appPurple}
                     textColor='#fff'
                     styling={{marginVertical:25}}
                   

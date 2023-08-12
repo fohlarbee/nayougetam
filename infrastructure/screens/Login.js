@@ -13,6 +13,7 @@ import { Text } from '@rneui/themed';
 
 import ForgetPassBottomSheet from '../components/ForgetPassBottomSheet';
 import Screen from '../components/Screen';
+import { CustomButton } from '../components/CustomButton';
 
 
 
@@ -25,7 +26,7 @@ const validationSchema = () => Yup.object().shape({
   password: Yup.string().required().min(6).label("newPassword")
 })
 
-export function Login({navigation}) {
+export default function Login({navigation}) {
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
 
   const toggleBottomSheet = () => {
@@ -72,22 +73,32 @@ export function Login({navigation}) {
               <Text onPress={toggleBottomSheet} style={{
                   textAlign:"right", 
                   marginRight:30, 
-                  color:Theme.colors.danger, 
-                  marginTop:5, 
-                  marginBottom:25, 
+                  color:Theme.colors.appPurple, 
+                  marginBottom:10, 
                   fontSize:15
                   }}>Forgot Password?
               </Text>
 
             </TouchableOpacity>
             
-            <SubmitButton styling={{fontWeight:'600'}} actionText='Sign In' textColor='#fff' color='#0e64d2'/>
+            <CustomButton styling={{fontWeight:'600'}} actionText='Sign In' textColor='#fff' color={Theme.colors.appPurple}/>
 
 
           </AppForm>
         </View>
         <Text h6 style={{fontWeight:'300', color:'rgba(0,0,0,0.3)', textAlign:'center', lineHeight:20, marginVertical:5}}>Or using other method</Text>
-        <SubmitButton  name='google' size={40} actionText='Sign in with Google' color='rgba(0,0,0,0.07)' textColor='#404040' styling={{marginBottom:10}}/>
+        <CustomButton 
+        name='google' size={40} actionText='Sign in with Google' 
+        color='rgba(0,0,0,0.07)' textColor='#404040' 
+        styling={{marginBottom:10}}/>
+        <View style={styles.noAccountContainer}>
+            <Text>
+              Don't have an account?
+            </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                <Text style={styles.noAccount}>Sign up</Text>
+              </TouchableOpacity>
+          </View>
 
       </ScrollView>
       <ForgetPassBottomSheet isBottomSheetVisible={isBottomSheetVisible} onClose={onClose}/>
@@ -100,9 +111,21 @@ const styles = StyleSheet.create({
     areaView:{
       backgroundColor:"#fff",
       flex:1,
-      marginTop:40
+      // marginTop:40
     },
     erroMessageStyle:{
       marginLeft:50,
+    },
+    noAccount: {
+      color: Theme.colors.appPurple,
+      marginLeft:10,
+      fontSize:12,
+      marginTop:2
+
+    },
+   
+    noAccountContainer: {
+      flexDirection:'row',
+      justifyContent: "center",
     }
   });

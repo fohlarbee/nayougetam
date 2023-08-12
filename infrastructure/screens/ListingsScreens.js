@@ -80,7 +80,7 @@ export function ListingsScreens({navigation}) {
             </View>
             <View style={{flexDirection:'row', justifyContent:'space-between', marginHorizontal:10}}>
                 <Text style={{fontWeight:'500',marginTop:10, marginBottom:6, color:'#404040', fontSize:25}}>Recent</Text>
-                <TouchableOpacity onPress={isCategoriesVisible}>
+                <TouchableOpacity onPress={() => navigation.navigate('Market place')}>
                     <Text  style={{fontWeight:'200',marginTop:21, marginBottom:6, color:Theme.colors.appBlue}}>Marketplace</Text>
                 </TouchableOpacity>
             </View>

@@ -7,7 +7,7 @@ export default  {
     ...DefaultTheme,
     colors:{
         ...DefaultTheme.colors,
-        primary:Theme.colors.danger,
+        primary:Theme.colors.appPurple,
         backgroundColor:Theme.colors.white
     }
 }

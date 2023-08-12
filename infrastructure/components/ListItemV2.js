@@ -37,7 +37,7 @@ export function ListItemV2({productName, productImage, vendorImage, vendorName, 
                         
                     </View>
                     <View style={{}}>
-                         <MaterialCommunityIcons name='chevron-right' size={30} style={{marginRight:0}} color={Theme.colors.appBlueV2}/>
+                         <MaterialCommunityIcons name='chevron-right' size={30} style={{marginRight:0}} color={Theme.colors.appLameS}/>
                     </View>
                    
 
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
       },
       courseTag:{
         fontSize:10,
-        color:Theme.colors.appBlue,
+        color:Theme.colors.appPurple,
         fontWeight:'700',
     
       },

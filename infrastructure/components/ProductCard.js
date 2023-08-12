@@ -18,7 +18,7 @@ export default function ProductCard({imageUrl,title, subTitle, price, styling}) 
       <View style={{alignSelf:'center'}}>
          <Text numberOfLines={1}  ellipsizeMode='clip' style={{fontWeight:'400', textAlign:'center', color:'#404040'}}>{title.substring(0,17)}</Text>
          <Text numberOfLines={1}  ellipsizeMode='clip'  style={{fontWeight:'200', textAlign:'center',fontSize:10.5}}>{subTitle.substring(0,17)}</Text>
-         <Text numberOfLines={1}  ellipsizeMode='clip'  style={{fontWeight:'700', textAlign:'center', fontSize:9, color:Theme.colors.appBlue}}>{price.substring(0,13)}</Text>
+         <Text numberOfLines={1}  ellipsizeMode='clip'  style={{fontWeight:'700', textAlign:'center', fontSize:9, color:Theme.colors.appPurple}}>{price.substring(0,13)}</Text>
       </View>
      
     </View>

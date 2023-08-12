@@ -39,13 +39,13 @@ const menuItem = [
     },
 ]
 export function Account({navigation}) {
-    const {user, setUser, setUserLoggedIn} = useContext(AuthContext);
+    // const {user, setUser, setUserLoggedIn} = useContext(AuthContext);
     const [image, setImage] = useState(null);
     const [imageUrl, setImageUrl] = useState('');
-    const [userName, setUserName] = useState('');
+    // const [userName, setUserName] = useState('');
     
     const getAvater = async () => {
-        const person = authentication?.currentUser?.uid;
+        // const person = authentication?.currentUser?.uid;
         const docRef = doc(db, 'users',person);
         const docSnap =await getDoc(docRef);
         setUserName(docSnap.data().username)
@@ -54,9 +54,9 @@ export function Account({navigation}) {
 
    
 
-    useEffect(() => {
-       getAvater();
-    },[])
+    // useEffect(() => {
+    //    getAvater();
+    // },[])
 
     const updateAvater = async() => {
 
@@ -118,13 +118,13 @@ export function Account({navigation}) {
     <Screen style={styles.screen}>
         <View style={styles.container}>
             <ListItem 
-                title={userName} 
-                subTitle={user.email}
+                // title={userName} 
+                // subTitle={user.email}
                 ImageComponent={
                 <Icon name='account-edit' size={70} 
                 backgroundColor={Theme.colors.appBlue}
                 onPress={updateAvater}
-                image={image}
+                // image={image}
                 />}
                 />
             

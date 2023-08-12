@@ -6,9 +6,11 @@ import {Octicons} from '@expo/vector-icons'
 import { Text } from '@rneui/themed'
 import { SubmitButton } from '../components/SubmitButton'
 import { Theme } from '../Theme'
+import { useNavigation } from '@react-navigation/native'
 
 
 export default function BottomCoponent({isBottomSheetVisible, onClose}) {
+    const navigation = useNavigation();
   return (
     <View style={{justifyContent:'center'}}>
         <SafeAreaProvider>
@@ -34,7 +36,13 @@ export default function BottomCoponent({isBottomSheetVisible, onClose}) {
                             <Text>Close BottomSheet</Text>
                         </TouchableOpacity>
                    </View>
-                   <SubmitButton actionText='Go to Hompage' color={Theme.colors.appBlue} textColor='#fff' styling={{marginVertical:25}}/>
+                   <SubmitButton 
+                   actionText='Proceed to Login' 
+                   color='#8062D6' 
+                   textColor='#fff' 
+                   styling={{marginVertical:25, fontWeight:'800'}}
+                   onPress={() => navigation.navigate('Login')}
+                   />
                    
                 </View>
             </BottomSheet>
@@ -57,7 +65,7 @@ const styles = StyleSheet.create({
         borderRadius:100,
         shadowColor:'rgba(0,0,0,0.2)',
         shadowOpacity:0.5,
-        elevation:'rgba(0,0,0,0.2)',
+        // elevation:'rgba(0,0,0,0.2)',
         shadowOffset:{ width:30},
         shadowRadius:1,
         marginVertical:40,
