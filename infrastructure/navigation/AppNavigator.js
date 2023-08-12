@@ -11,10 +11,15 @@ import { TabButton } from './TabButton';
 import * as Notifications from 'expo-notifications'
 import { doc, updateDoc } from 'firebase/firestore';
 import { authentication, db } from '../firebase/firebaseConfig';
+import Notifocations from '../screens/Notifocations';
+import Marketplace from '../screens/Marketplace';
+import { color } from 'react-native-reanimated';
 
 
 const Tab = createBottomTabNavigator();
+
 const AppNavigator = () => {
+
     const user = authentication?.currentUser?.uid
 
 
@@ -36,7 +41,7 @@ const AppNavigator = () => {
         
     }
     return (
-        <Tab.Navigator screenOptions={{headerShown:false}}>
+        <Tab.Navigator screenOptions={{headerShown:true}}>
             <Tab.Screen 
             name="Feed" 
             component={FeedNavigator}
@@ -44,29 +49,36 @@ const AppNavigator = () => {
                 // headerShown:true,
                 
                     tabBarIcon:({size, color}) => 
-                    <MaterialCommunityIcons name='home' size={size} color={Theme.colors.appBlue}/>
+                    <MaterialCommunityIcons name='home' size={size} color={color}/>
                 
             }}
             />
+            <Tab.Screen name='Market place' 
+            component={Marketplace} 
+            options={{
+                tabBarIcon:({size, color}) => <MaterialCommunityIcons name='salesforce' size={size} color={color}/>,
+            }}
+            />
+
             <Tab.Screen 
-            name="New Listing" 
-            component={ListingEditScreen}
+            name="Notification" 
+            component={Notifocations}
             options={ ({navigation}) => ({
-                headerShown:true,
-                tabBarButton:() => <TabButton onPress={() => navigation.navigate('New Listing')}/>,
+                // tabBarButton:() => <TabButton onPress={() => navigation.navigate('New Listing')}/>,
                 
                 tabBarIcon:({size, color}) => 
-                <MaterialCommunityIcons name='plus-circle' size={size} color={Theme.colors.appBlue}/>
+                <MaterialCommunityIcons name='bell-badge' size={size} color={color}/>
             
         })}
             />
+
             <Tab.Screen 
-            name="AccountNav" 
+            name="Account" 
             component={AccountNavigator}
             options={{
                 
                 tabBarIcon:({size, color}) => 
-                <MaterialCommunityIcons name='account' size={size} color={Theme.colors.appBlue}/>
+                <MaterialCommunityIcons name='account' size={size} color={color}/>
             
         }}
             />

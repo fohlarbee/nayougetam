@@ -52,7 +52,7 @@ export function ListingDetailsScreen({route}) {
   return (
     <Screen>
         <ScrollView style={{flex:1}} showsVerticalScrollIndicator={false}>
-        <View style={{}} >
+        <View style={{flex:0.6}} >
                 <ScrollView
                 onScroll={({nativeEvent}) => onChange(nativeEvent)}
                 pagingEnabled
@@ -85,7 +85,7 @@ export function ListingDetailsScreen({route}) {
                 </View>
             </View>
             <View style={{alignContent:'flex-start', flex:1}}>
-                <SubmitButton color='red' />
+                <Text>Mirac Jiz</Text>
             </View>
            
         </ScrollView>

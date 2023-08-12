@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 const AccountNavigator = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Account' component={Account}/>
+            <Stack.Screen name='Accounts' component={Account}/>
             <Stack.Screen name='ListingsScreen' component={ListingsScreens}/>
             <Stack.Screen name='Messages' component={Messages}/>
             <Stack.Screen name='MyListings' component={MyListings}/>

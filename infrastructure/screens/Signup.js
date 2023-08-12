@@ -11,6 +11,7 @@ import { setDoc, doc } from 'firebase/firestore';
 import { Theme } from '../Theme';
 import { Text } from '@rneui/themed';
 import { TouchableOpacity } from 'react-native';
+import { CustomButton } from '../components/CustomButton';
 
 const validationSchema = Yup.object().shape({
   username:Yup.string().required().min(5).label("Username"),
@@ -20,7 +21,7 @@ const validationSchema = Yup.object().shape({
 
 })
 
-export function Signup({navigation}) {
+export default function SignUp({navigation}) {
   
     const [successfulSwitch, setSuccessfulSwitch] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -106,16 +107,21 @@ export function Signup({navigation}) {
               
             />
            
-            <SubmitButton actionText='Sign In' textColor='#fff' color='#0e64d2' styling={{marginTop:20}}/>
+            <CustomButton 
+            actionText='Sign Up' 
+            textColor='#fff' 
+            color={Theme.colors.appPurple} styling={{marginTop:20}}
+            onPress={() => navigation.navigate('Verification')}
+            />
 
 
           </AppForm>
         </View>
         <Text h6 style={{fontWeight:'300', color:'rgba(0,0,0,0.3)', textAlign:'center', lineHeight:20, marginVertical:5}}>Or using other method</Text>
-        <SubmitButton  name='google' size={40} textColor='#404040' actionText='Sign in with Google' color='rgba(0,0,0,0.07)' styling={{marginBottom:10}}/>
+        <CustomButton  name='google' size={40} textColor='#404040' actionText='Sign in with Google' color='rgba(0,0,0,0.07)' styling={{marginBottom:10}}/>
         <View style={{flexDirection:'row', alignSelf:'center'}}>
-          <Text style={{}}>Already have an account? </Text>
-          <TouchableOpacity>
+          <Text >Already have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.alreadyHave}>Sign In</Text>
               </TouchableOpacity>
         </View>
@@ -132,14 +138,13 @@ const styles = StyleSheet.create({
   areaView:{
     flex:1,
     backgroundColor:'#fff',
-    marginTop:40
   },
   
   alreadyHave:{
     textAlign:"center",
     marginTop:3,
     fontSize:12,
-    color:Theme.colors.appBlue,
+    color:Theme.colors.appPurple,
     marginHorizontal:7
   
   },
