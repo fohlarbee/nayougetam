@@ -5,7 +5,7 @@ import { Theme } from '../Theme';
 import { Swipeable } from 'react-native-gesture-handler';
 import {MaterialCommunityIcons} from "@expo/vector-icons"
 
-export function ListItem({title, subTitle, image, ImageComponent, onPress, renderRightActions}) {
+export function ListItem({title, subTitle, image, ImageComponent, onPress, icon, iconName,  iconColor, iconSize = 40, renderRightActions}) {
   return (
     <Swipeable renderRightActions={renderRightActions}>
         <TouchableHighlight
@@ -14,7 +14,9 @@ export function ListItem({title, subTitle, image, ImageComponent, onPress, rende
         >
             <View style={styles.container}>
                 {ImageComponent}
-               {image && <Image source={{uri:image}} style={styles.image}/>} 
+                {icon && <MaterialCommunityIcons name={iconName} size={iconSize} color={iconColor} style={{marginLeft:5}}/>}
+
+               {image && <Image source={image} style={styles.image} resizeMode='cover'/>} 
                 <View style={styles.ownerHolder}>
                     <AppText inputText={title} stylesLing={styles.name} numberOfLines={1} />
                    {subTitle && <AppText inputText={subTitle} stylesLing={styles.listing} noOfLines={2}/>}
@@ -32,13 +34,19 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         marginVertical:0,
         // marginVertical:15,
-        backgroundColor:Theme.colors.white,
+        backgroundColor:'#fff',
         alignItems:"center",
-        marginHorizontal:10
+        borderWidth:0.17,
+        borderColor:'lightgrey',
+        borderRadius:10,
+        height:80,
+        maxHeight:100,
+        marginHorizontal:10,
+        marginVertical:5
     },
     image:{
-        width:60,
-        height:60,
+        width:40,
+        height:40,
         borderRadius:50,
         marginLeft:10
     },
@@ -49,10 +57,12 @@ const styles = StyleSheet.create({
         justifyContent:"center"
     },
     name:{
-        fontWeight:"bold",
+        fontWeight:'400',
+        fontSize:12
     },
     listing:{
         color:"#6e6969",
-        marginTop:5
+        marginTop:5,
+        fontSize:8
     }
 })

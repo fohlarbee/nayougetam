@@ -13,8 +13,6 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { authentication, db } from '../firebase/firebaseConfig';
 import Notifocations from '../screens/Notifocations';
 import Marketplace from '../screens/Marketplace';
-import { color } from 'react-native-reanimated';
-
 
 const Tab = createBottomTabNavigator();
 

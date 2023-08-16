@@ -85,16 +85,14 @@ export default function App() {
   // }, [restoreToken]);
 
   return (
-    // <BottomCoponent/>
-    // <Verification/>
-    // <Login/>  
-    // <Signup/>
-    // <Onboarding/>
-    // <ListingDetailsScreen/>
-    <NavigationContainer theme={navigationTheme}>
-       {/* <AuthNavigator/> */}
-       <AppNavigator/>
-    </NavigationContainer>
+    <AuthContext.Provider value={{setViewedOnboarding}}>
+       <NavigationContainer theme={navigationTheme}>
+        {/* <AuthNavigator/> */}
+           {loading ? <Loading/> : viewedOnboarding ? <AppNavigator/> : <Onboarding/>}
+       </NavigationContainer>
+
+    </AuthContext.Provider>
+   
     
     // <>
     //   <OfflineNotice/>
@@ -102,7 +100,7 @@ export default function App() {
     //   <AuthContext.Provider value={{ userLoggedIn, setUserLoggedIn, user, setUser}}>
     //     <NavigationContainer theme={navigationTheme}>
     //       {loading ? <Loading/> : viewedOnboarding ? <AppNavigator/> : <Onboarding/>}
-    //     </NavigationContainer>
+        // </NavigationContainer>
     //   </AuthContext.Provider>
     // </>
   );

@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
   areaView:{
     flex:1,
     backgroundColor:'#fff',
+    marginTop:40
   },
   
   alreadyHave:{

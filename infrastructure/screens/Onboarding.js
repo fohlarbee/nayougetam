@@ -8,8 +8,11 @@ import Paginator from '../components/Paginator'
 import NextButton from '../components/NextButton'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useContext } from 'react'
+import AuthContext from '../Globals/AppContext'
 
 const Onboarding = () => {
+  const {setViewedOnboarding} = useContext(AuthContext)
   const slidesRef = useRef(null);
 
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -33,6 +36,8 @@ const Onboarding = () => {
       } catch (error) {
         console.log('Error @setViewedOnboarding', err)
         
+      }finally{
+        setViewedOnboarding(true);
       }
     }
   }

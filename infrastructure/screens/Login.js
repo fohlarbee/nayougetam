@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     areaView:{
       backgroundColor:"#fff",
       flex:1,
-      // marginTop:40
+      marginTop:40
     },
     erroMessageStyle:{
       marginLeft:50,

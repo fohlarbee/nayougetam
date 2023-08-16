@@ -8,6 +8,6 @@ export default  {
     colors:{
         ...DefaultTheme.colors,
         primary:Theme.colors.appPurple,
-        backgroundColor:Theme.colors.white
+        backgroundColor:'blue'
     }
 }
