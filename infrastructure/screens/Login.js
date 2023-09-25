@@ -2,6 +2,7 @@ import {  Alert, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } fr
 import React, {  useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import * as Yup from "yup";
+import { Formik } from 'formik';
 
 
 import { AppFormField } from '../components/AppFormField';
@@ -14,6 +15,10 @@ import { Text } from '@rneui/themed';
 import ForgetPassBottomSheet from '../components/ForgetPassBottomSheet';
 import Screen from '../components/Screen';
 import { CustomButton } from '../components/CustomButton';
+import { useLogin } from '../hooks/useLogin';
+import { AppTextComponents } from '../components/AppTextComponents';
+import { ErrorMessage } from '../components/ErrorMessage';
+
 
 
 
@@ -21,13 +26,19 @@ import { CustomButton } from '../components/CustomButton';
 
 
 const validationSchema = () => Yup.object().shape({
-  number: Yup.number().required().label("PhoneNumber"),
-  code: Yup.number().required().max(4).label("Code"),
-  password: Yup.string().required().min(6).label("newPassword")
+  email: Yup.string().required().email().label("Email"),
+  // number: Yup.number().required().label("PhoneNumber"),
+  password: Yup.string().required().min(6).label("Password")
 })
 
 export default function Login({navigation}) {
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const {login, error, isLoading} = useLogin()
+
+  const handleLogin = async(values) => {
+    // alert(values.email)
+    await login(values.email, values.password);
+  }
 
   const toggleBottomSheet = () => {
     setBottomSheetVisible(!isBottomSheetVisible);
@@ -48,43 +59,55 @@ export default function Login({navigation}) {
           <Text h5 style={{color:'rgba(0,0,0,0.3)', marginBottom:15}}>Please login with registered account</Text>
         </View>
         <View>
-          <AppForm 
-          initialValues={{number:'', newpassword:'', code:''}}
-          validationSchema={validationSchema}
+          <Formik
+            initialValues={{email:'', password:''}}
+            validationSchema={validationSchema}
+            onSubmit={async(values) => await handleLogin(values)}
 
-          >
-            <Text h5 style={{ marginHorizontal:25, fontWeight:'500'}}>Mobile number</Text>
-            <AppFormField
-            name='number'
-            keyboardType='numeric'
-            maxLength={11}
-              placeholder='Enter your number'
-              icon='phone-outline'
-            />
-            <Text h5 style={{ marginHorizontal:25, fontWeight:'500'}}>Password</Text>
-            <AppFormField
-              name='password'
-              placeholder='Login with password'
-              icon='lock-outline'
-              secureTextEntry
-              
-            />
-            <TouchableOpacity>
-              <Text onPress={toggleBottomSheet} style={{
-                  textAlign:"right", 
-                  marginRight:30, 
-                  color:Theme.colors.appPurple, 
-                  marginBottom:10, 
-                  fontSize:15
-                  }}>Forgot Password?
-              </Text>
+            >
+              {({handleChange, handleSubmit, errors, setFieldTouched, touched}) => (
+                <>
 
-            </TouchableOpacity>
+                <AppTextComponents
+                placeholder='Email address'
+                autoCapitalize='none'
+                autoCorrect={false}
+                onBlur={() => setFieldTouched('email')}
+                onChangeText={handleChange("email")}
+                icon='email-outline'
+                textContentType='emailAddress'
+                />
+              <ErrorMessage style={styles.errorMessageStyle} error={errors.email} visible={touched.email} />
+
+
+                <AppTextComponents
+                placeholder='Password'
+                autoCapitalize='none'
+                autoCorrect={false}
+                onBlur={() => setFieldTouched('password')}
+                onChangeText={handleChange("password")}
+                icon='lock-outline'
+                textContentType='password'
+                secureTextEntry
+                />
+              <ErrorMessage style={styles.errorMessageStyle} error={errors.password} visible={touched.password}
+                />
+                {error && <Text>{error}</Text>}
+
+
+
+                <CustomButton 
+                actionText='Login' 
+                color={Theme.colors.appPurple} 
+                textColor='#fff'
+                onPress={handleSubmit}
+                disabled={isLoading}
+                />
+
+                </>
+              )}
+            </Formik>
             
-            <CustomButton styling={{fontWeight:'600'}} actionText='Sign In' textColor='#fff' color={Theme.colors.appPurple}/>
-
-
-          </AppForm>
         </View>
         <Text h6 style={{fontWeight:'300', color:'rgba(0,0,0,0.3)', textAlign:'center', lineHeight:20, marginVertical:5}}>Or using other method</Text>
         <CustomButton 
@@ -111,7 +134,7 @@ const styles = StyleSheet.create({
     areaView:{
       backgroundColor:"#fff",
       flex:1,
-      marginTop:40
+      marginTop:'15%'
     },
     erroMessageStyle:{
       marginLeft:50,
@@ -127,5 +150,11 @@ const styles = StyleSheet.create({
     noAccountContainer: {
       flexDirection:'row',
       justifyContent: "center",
-    }
+    },
+    errorMessageStyle:{
+      color:Theme.colors.danger,
+      fontSize:8,
+      marginHorizontal:30
+  
+  }
   });

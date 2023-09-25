@@ -7,6 +7,7 @@ import { Text } from '@rneui/themed'
 import { SubmitButton } from '../components/SubmitButton'
 import { Theme } from '../Theme'
 import { useNavigation } from '@react-navigation/native'
+import { CustomButton } from '../components/CustomButton'
 
 
 export default function BottomCoponent({isBottomSheetVisible, onClose}) {
@@ -32,11 +33,11 @@ export default function BottomCoponent({isBottomSheetVisible, onClose}) {
                         <Text h4 style={{fontWeight:'600'}}>Register Successful</Text>
                         <Text  style={{marginTop:5, color:'#404040', fontSize:10}}>Congratulations your account already created</Text>
                         <Text style={{color:'#404040',fontSize:10}}>Please login to get amazing experience</Text>
-                        <TouchableOpacity onPress={onClose}>
+                        {/* <TouchableOpacity onPress={onClose}>
                             <Text>Close BottomSheet</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                    </View>
-                   <SubmitButton 
+                   <CustomButton
                    actionText='Proceed to Login' 
                    color='#8062D6' 
                    textColor='#fff' 

@@ -2,10 +2,13 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useFormikContext } from 'formik'
 
-import { CustomButton } from './CustomButton'
+import { CustomButton } from './CustomButton';
 
-export function SubmitButton({actionText,styling, color, size, iconColor, name, textColor,onPress, ...otherProps}) {
+export function SubmitButton({actionText,styling, color, size, iconColor, name, onPress, textColor, disabled, ...otherProps}) {
+
     // const {handleSubmit} = useFormikContext();
+
+
   return (
     <>
     <CustomButton 
@@ -13,14 +16,12 @@ export function SubmitButton({actionText,styling, color, size, iconColor, name, 
     actionText={actionText} 
     size={size}
     name={name}
-    iconColor={iconColor}
+    iconColor={iconColor} 
     textColor={textColor}
     {...otherProps}
-    onPress={onPress}
-    //  onPress={() => {
-      // handleSubmit()
-    // }
-      // }
+    // onPress={handleSubmit}
+    // onPress={onPress}
+    disabled={disabled}
       /> 
     
     </> 

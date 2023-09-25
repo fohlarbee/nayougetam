@@ -1,9 +1,9 @@
-import { Alert, Dimensions, ScrollView, StyleSheet, View } from 'react-native'
+import { Dimensions, ScrollView, StyleSheet, View, Alert } from 'react-native'
 import React, { useState } from 'react'
-import { AppFormField } from '../components/AppFormField';
 import  Screen  from '../components/Screen';
-import AppForm from '../components/AppForm';
 import * as Yup from "yup";
+import { ErrorMessage } from '../components/ErrorMessage';
+import { AppTextComponents } from '../components/AppTextComponents';
 import { SubmitButton } from '../components/SubmitButton';
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { authentication, db } from '../firebase/firebaseConfig';
@@ -12,11 +12,14 @@ import { Theme } from '../Theme';
 import { Text } from '@rneui/themed';
 import { TouchableOpacity } from 'react-native';
 import { CustomButton } from '../components/CustomButton';
+import { Formik, useFormikContext } from 'formik';
+import { useSignup } from '../hooks/useSignup';
+
+
 
 const validationSchema = Yup.object().shape({
   username:Yup.string().required().min(5).label("Username"),
   email: Yup.string().required().email().label("Email"),
-  number: Yup.number().required().label("PhoneNumber"),
   password: Yup.string().required().min(6).label("Password")
 
 })
@@ -25,48 +28,20 @@ export default function SignUp({navigation}) {
   
     const [successfulSwitch, setSuccessfulSwitch] = useState(false);
     const [visible, setVisible] = useState(false);
-
-    const registerUser = (values) => {
-     
-      try {
-       setVisible(true);
-       const userDetails = {
-        email: values.email,
-        expoPushToken:'',
-        password:values.password,
-        avatar:'',
-        username:values.username,
-        number:values.number,
-
-        }
-
-        createUserWithEmailAndPassword(authentication, values.email, values.password)
-      .then(() => {
-        onAuthStateChanged(authentication, (user) => {
-        let userUid = user.uid
-        setDoc(doc(db,'users',userUid),userDetails)
-
-        })
-      })
-      .then(() => {
-        setVisible(false);
-              setSuccessfulSwitch(true)
-      })
-      .then(() => {
-        setTimeout(() => {
-            navigation.goBack('Login')
-        }, 4000);
-      })
-      } catch (error) {
-        setVisible(false);
-        console.log(error);
-        Alert.alert('Error', error.message)
-      }
-      
-   }
+    const {signup, isLoading, error} = useSignup()
 
    
-    
+
+    const handleSignup = async(values) => {
+      try {
+         await signup(values.username, values.email, values.password) 
+      } catch (error) {
+        throw Error(error.message)
+      }
+      
+    }
+
+  
 
   return (
     <Screen style={styles.areaView}>
@@ -76,46 +51,116 @@ export default function SignUp({navigation}) {
           <Text style={{color:'rgba(0,0,0,0.3)', fontSize:10}}>Please register an account</Text>
         </View>
         <View>
-          <AppForm 
-          initialValues={{username:'', password:'', number:''}}
+          <Formik
+          initialValues={{username:'', email:'', password:''}}
           validationSchema={validationSchema}
+          onSubmit={async(values) => await handleSignup(values)}
 
           >
-            <Text h5 style={{ marginHorizontal:25, fontWeight:'300'}}>Username</Text>
+            {({handleChange, handleSubmit, errors, setFieldTouched, touched}) => (
+              <>
+              <AppTextComponents
+              placeholder='Create a username'
+              autoCapitalize='none'
+              autoCorrect={false}
+              onBlur={() => setFieldTouched('username')}
+              onChangeText={handleChange("username")}
+              icon='account-outline'
+              // value={values[name]}
+              // width={width}
+              />
+             <ErrorMessage style={styles.errorMessageStyle} error={errors.username}  visible={touched.username}/>
+
+              <AppTextComponents
+              placeholder=' Enter your email address'
+              autoCapitalize='none'
+              autoCorrect={false}
+              onBlur={() => setFieldTouched('email')}
+              onChangeText={handleChange("email")}
+              icon='email-outline'
+              textContentType='emailAddress'
+
+              // value={values[name]}
+              // width={width}
+              />
+             <ErrorMessage style={styles.errorMessageStyle} error={errors.email} visible={touched.email} />
+
+
+              <AppTextComponents
+              placeholder='Create password'
+              autoCapitalize='none'
+              autoCorrect={false}
+              onBlur={() => setFieldTouched('password')}
+              onChangeText={handleChange("password")}
+              icon='lock-outline'
+              textContentType='password'
+              secureTextEntry
+              // value={values[name]}
+              // width={width}
+              />
+             <ErrorMessage style={styles.errorMessageStyle} error={errors.password} visible={touched.password}
+              />
+              {error && <Text style={{fontSize:9, textAlign:'center', color:Theme.colors.danger, marginBottom:6}}>{error}</Text>}
+
+
+
+              <CustomButton 
+              actionText='Sign up' 
+              color={Theme.colors.appPurple} 
+              textColor='#fff'
+              onPress={handleSubmit}
+              disabled={isLoading}
+              />
+
+              </>
+            )}
+          </Formik>
+          {/* <AppForm 
+          initialValues={{username:'', email:'', password:''}}
+          validationSchema={validationSchema}
+          onSubmit={ (values) => {
+          // handleSubmit()
+            Alert.alert(values)}
+
+          }
+
+          >
             <AppFormField
             name='username'
             maxLength={20}
               placeholder='Create a username'
               icon='account-outline'
             />
-            <Text h5 style={{ marginHorizontal:25, fontWeight:'300'}}>Mobile number</Text>
 
             <AppFormField
-            keyboardType='numeric'
-            maxLength={11}
-            name='number'
-            placeholder='Enter your number'
-            icon='phone-outline'
+            keyboardType='email-address'
+            // maxLength={11}
+            name='email'
+            placeholder='Enter your email address'
+            icon='email-outline'
             />
-            <Text h5 style={{ marginHorizontal:25, fontWeight:'300'}}>Password</Text>
             <AppFormField
               name='password'
               maxLength={20}
-              placeholder='Login with password'
+              placeholder='Create password'
               icon='lock-outline'
               secureTextEntry
               
             />
+            {error && <Text>{error}</Text>}
            
-            <CustomButton 
+            <SubmitButton
             actionText='Sign Up' 
             textColor='#fff' 
             color={Theme.colors.appPurple} styling={{marginTop:20}}
-            onPress={() => navigation.navigate('Verification')}
+            // onPress={() => navigation.navigate('Verification')}
+            // onPress={handleSubmit}
+            disabled={isLoading}
+            
             />
 
 
-          </AppForm>
+          </AppForm> */}
         </View>
         <Text h6 style={{fontWeight:'300', color:'rgba(0,0,0,0.3)', textAlign:'center', lineHeight:20, marginVertical:5}}>Or using other method</Text>
         <CustomButton  name='google' size={40} textColor='#404040' actionText='Sign in with Google' color='rgba(0,0,0,0.07)' styling={{marginBottom:10}}/>
@@ -138,7 +183,7 @@ const styles = StyleSheet.create({
   areaView:{
     flex:1,
     backgroundColor:'#fff',
-    marginTop:40
+    marginTop:"15%"
   },
   
   alreadyHave:{
@@ -149,5 +194,11 @@ const styles = StyleSheet.create({
     marginHorizontal:7
   
   },
+  errorMessageStyle:{
+    color:Theme.colors.danger,
+    fontSize:8,
+    marginHorizontal:30
+
+}
   
 })

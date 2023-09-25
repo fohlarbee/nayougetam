@@ -39,12 +39,16 @@ const AppNavigator = () => {
         
     }
     return (
-        <Tab.Navigator screenOptions={{headerShown:true}}>
+        <Tab.Navigator screenOptions={{headerShown:false}}>
             <Tab.Screen 
             name="Feed" 
             component={FeedNavigator}
             options={{
-                // headerShown:true,
+                headerShown:true,
+                headerTitle:'Feed',
+                headerShown:true,
+                headerStyle:{},
+                headerTitleContainerStyle:{jsutifyContent:'center', alignSelf:'center'},
                 
                     tabBarIcon:({size, color}) => 
                     <MaterialCommunityIcons name='home' size={size} color={color}/>
@@ -54,6 +58,7 @@ const AppNavigator = () => {
             <Tab.Screen name='Market place' 
             component={Marketplace} 
             options={{
+                headerShown:true,
                 tabBarIcon:({size, color}) => <MaterialCommunityIcons name='salesforce' size={size} color={color}/>,
             }}
             />
@@ -62,6 +67,8 @@ const AppNavigator = () => {
             name="Notification" 
             component={Notifocations}
             options={ ({navigation}) => ({
+                headerShown:true,
+
                 // tabBarButton:() => <TabButton onPress={() => navigation.navigate('New Listing')}/>,
                 
                 tabBarIcon:({size, color}) => 
@@ -71,10 +78,10 @@ const AppNavigator = () => {
             />
 
             <Tab.Screen 
-            name="Account" 
+            name="Accounts" 
             component={AccountNavigator}
             options={{
-                
+                headerShown:false,
                 tabBarIcon:({size, color}) => 
                 <MaterialCommunityIcons name='account' size={size} color={color}/>
             

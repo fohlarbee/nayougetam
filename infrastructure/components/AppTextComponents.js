@@ -32,9 +32,8 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         padding:15,
         marginVertical:10,
-        marginBottom:20,
+        marginBottom:15,
         borderWidth:0.5,
-        // marginRight:10,
         borderColor:'rgba(0,0,0,0.4)',
         alignSelf:'center',
         
@@ -42,7 +41,6 @@ const styles = StyleSheet.create({
     textInput:{
         borderRadius:100,
         fontSize:15,
-        // fontFamily:Platform.OS === "andriod" ? "Roboto" : "Roboto",
         width:"100%",
         color:Theme.colors.dark,
         flex:1,    
