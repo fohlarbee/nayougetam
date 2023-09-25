@@ -1,27 +1,37 @@
 import { StyleSheet, View, KeyboardAvoidingView, Platform, Alert} from 'react-native'
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text} from '@rneui/themed';
 import  Screen from '../components/Screen';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons'
 import OTPInputView from '../components/OTPInputView';
-import { SubmitButton } from '../components/SubmitButton';
-
+import AppContext from '../Globals/AppContext';
 import BottomCoponent from './BottomCoponent';
 import { Theme } from '../Theme';
+import { useVerification } from '../hooks/useVerification';
+import { CustomButton } from '../components/CustomButton';
 
 
-export default function Verification() {
+export default function Verification({route}) {
+    const { email } = route.params;
+    // const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+
     const [otpcode, setOtpCode] = useState([]);
-    const[error, setError] = useState(false);
+    const[codeError, setCodeError] = useState(false);
+    const {verify, error, isLoading, isBottomSheetVisible, setIsBottomSheetVisible} = useVerification()
+    const {setUserLoggedIn, user} = useContext(AppContext)
 
-    const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
-    const digits = '1234'
 
-    const toggleBottomSheet = () => {
-      setBottomSheetVisible(!isBottomSheetVisible);
-    };
+
+
+    // const toggleBottomSheet = () => {
+    //   setBottomSheetVisible(!isBottomSheetVisible);
+    // };
     const onClose = () => {
-        setBottomSheetVisible(false);
+        setIsBottomSheetVisible(false);
+    }
+
+    const handleSubmit = async(email, otp) => {
+        await verify(email, otp)
     }
    
     
@@ -43,22 +53,12 @@ export default function Verification() {
             <View style={{alignSelf:'center'}}>
                     <Text h4 style={{fontWeight:'500',textAlign:'center'}}>Verification Code</Text>
                     <Text small style={{marginTop:5, textAlign:'center',color:'rgba(0,0,0,0.5)'}}>We have sent a 4 digit code verification to</Text>
-                    <Text small style={{ textAlign:'center', color:'rgba(0,0,0,0.5)'}}>081********630</Text>
+                    <Text small style={{ textAlign:'center', color:'rgba(0,0,0,0.5)'}}>{email}</Text>
 
             </View>
             
             <View  style={{width:'80%', height:100, paddingHorizontal:32}}>
                 <OTPInputView pinCount={4}
-
-                onCodeChanged={(code) => {
-                    otpcode.push(code)
-                    if (otpcode.length > 1) {
-                        setError(true)
-                    }
-                    if(otpcode.length === 4){
-                        setError(false);
-                    }else setError(false);
-                }}
         
                 autoFocusOnLoad={true}
                 codeInputFieldStyle={{
@@ -71,23 +71,19 @@ export default function Verification() {
                     borderColor:'#8062D6',
                 }}
                 onCodeFilled={(code) =>{
-                    if(code === digits){
-                        toggleBottomSheet();
-                    }if( code !== digits){
-                        Alert.alert('Error', 'Verification failed, ask for a code resend')
-                    };
+                    setOtpCode(code)
                 }}
                    
                 />
-             {error && 
+             {codeError && 
              <Text style={{textAlign:'center', color:'red'}}>
                 OTP must be a 4 digit number</Text>}
+            {isLoading && <Text style={{fontSize:9, textAlign:'center'}}>validating code</Text>}
             
             </View>
-            <SubmitButton
-            onPress={() => {
-                
-            }}
+            {error && <Text style={{fontSize:9, textAlign:'center', color:Theme.colors.danger, marginBottom:6 }}>{error}</Text>}
+            <CustomButton
+             onPress={() => handleSubmit(email, otpcode)}
              actionText='Verify' 
              color='#8062D6' 
              textColor='#fff'

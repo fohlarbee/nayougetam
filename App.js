@@ -4,19 +4,15 @@ import { useEffect, useState } from 'react';
 
 
 import navigationTheme from './infrastructure/navigation/navigationTheme';
-import AuthContext from './infrastructure/Globals/AppContext';
+import AppContext from './infrastructure/Globals/AppContext';
+import {AuthContextProvider} from './infrastructure/Globals/AuthContext'
 import AppNavigator from './infrastructure/navigation/AppNavigator';
+import Onboarding  from './infrastructure/screens/Onboarding';
 import OfflineNotice from './infrastructure/components/OfflineNotice';
 import storage from './infrastructure/auth/storage';
 import * as SplashScreen from 'expo-splash-screen'
-import Onboarding from './infrastructure/screens/Onboarding';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Signup } from './infrastructure/screens/Signup';
-import Verification from './infrastructure/screens/Verification';
-import BottomCoponent from './infrastructure/screens/BottomCoponent';
-import { ListingDetailsScreen } from './infrastructure/screens/ListingDetailsScreen';
 
-import Login  from './infrastructure/screens/Login'
 import { AuthNavigator } from './infrastructure/navigation/AuthNavigator';
 
 
@@ -46,7 +42,7 @@ export default function App() {
   }
   const [loading, setLoading] = useState(true);
   const [viewedOnboarding, setViewedOnboarding] = useState(false);
-  const [userLoggedIn, setUserLoggedIn] = useState();
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [isReady,setIsReady] = useState(false);
   
@@ -85,13 +81,19 @@ export default function App() {
   // }, [restoreToken]);
 
   return (
-    <AuthContext.Provider value={{setViewedOnboarding}}>
-       <NavigationContainer theme={navigationTheme}>
-        {/* <AuthNavigator/> */}
-           {loading ? <Loading/> : viewedOnboarding ? <AppNavigator/> : <Onboarding/>}
-       </NavigationContainer>
+    <AuthContextProvider>
+       <AppContext.Provider value={{setViewedOnboarding, user, setUser, setUserLoggedIn}}>
+          <NavigationContainer theme={navigationTheme}>
+            {/* <AuthNavigator/> */}
+              {/* {loading ? <Loading/> : viewedOnboarding ? <AuthNavigator/> : user ? <AppNavigator/> : <Onboarding/>} */}
+              {/* {user ? <AppNavigator/> : null} */}
+              {user ? <AppNavigator/> : viewedOnboarding ? <AuthNavigator/>  : loading ? <Loading/> : <Onboarding/>}
+         </NavigationContainer>
 
-    </AuthContext.Provider>
+       </AppContext.Provider>
+    </AuthContextProvider>
+    
+   
    
     
     // <>

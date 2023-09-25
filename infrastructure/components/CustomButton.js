@@ -2,9 +2,9 @@ import { Dimensions, StyleSheet, Text, TouchableOpacity,View } from 'react-nativ
 import React from 'react'
 import {MaterialCommunityIcons} from '@expo/vector-icons'
 
-export function CustomButton({actionText, onPress, styling, color, size, name, iconColor, textColor}) {
+export function CustomButton({actionText, onPress, styling, color, size, name, iconColor, textColor, disabled}) {
   return (
-    <TouchableOpacity style={[styles.btn,styling, {backgroundColor:color}]} onPress={onPress}>
+    <TouchableOpacity style={[styles.btn,styling, {backgroundColor:color}]} onPress={onPress} disabled={disabled}>
       <View style={{flexDirection:'row', justifyContent:'center'}}>
       <MaterialCommunityIcons name={name} size={size} color={iconColor} style={{marginHorizontal:5}}/>
         <Text 
@@ -14,7 +14,7 @@ export function CustomButton({actionText, onPress, styling, color, size, name, i
           fontSize:15, 
           color:textColor,
           fontWeight:'bold'
-          }}>{actionText}</Text>
+          }}>{disabled ? 'Loading...' : actionText}</Text>
       </View>
      
     </TouchableOpacity>
@@ -24,8 +24,8 @@ export function CustomButton({actionText, onPress, styling, color, size, name, i
 const {width, height} = Dimensions.get("window")
 const styles = StyleSheet.create({
     btn:{
-        width:width - 50,
-        height:55,
+        width:'90%',
+        height:63,
         alignSelf:"center",
         borderWidth:0.1,
         borderRadius:100,
