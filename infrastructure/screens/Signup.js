@@ -1,18 +1,14 @@
-import { Dimensions, ScrollView, StyleSheet, View, Alert } from 'react-native'
+import { Dimensions, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
 import  Screen  from '../components/Screen';
 import * as Yup from "yup";
 import { ErrorMessage } from '../components/ErrorMessage';
 import { AppTextComponents } from '../components/AppTextComponents';
-import { SubmitButton } from '../components/SubmitButton';
-import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { authentication, db } from '../firebase/firebaseConfig';
-import { setDoc, doc } from 'firebase/firestore';
 import { Theme } from '../Theme';
 import { Text } from '@rneui/themed';
 import { TouchableOpacity } from 'react-native';
 import { CustomButton } from '../components/CustomButton';
-import { Formik, useFormikContext } from 'formik';
+import { Formik} from 'formik';
 import { useSignup } from '../hooks/useSignup';
 
 
@@ -66,8 +62,6 @@ export default function SignUp({navigation}) {
               onBlur={() => setFieldTouched('username')}
               onChangeText={handleChange("username")}
               icon='account-outline'
-              // value={values[name]}
-              // width={width}
               />
              <ErrorMessage style={styles.errorMessageStyle} error={errors.username}  visible={touched.username}/>
 
@@ -80,8 +74,6 @@ export default function SignUp({navigation}) {
               icon='email-outline'
               textContentType='emailAddress'
 
-              // value={values[name]}
-              // width={width}
               />
              <ErrorMessage style={styles.errorMessageStyle} error={errors.email} visible={touched.email} />
 
@@ -95,12 +87,10 @@ export default function SignUp({navigation}) {
               icon='lock-outline'
               textContentType='password'
               secureTextEntry
-              // value={values[name]}
-              // width={width}
               />
              <ErrorMessage style={styles.errorMessageStyle} error={errors.password} visible={touched.password}
               />
-              {error && <Text style={{fontSize:9, textAlign:'center', color:Theme.colors.danger, marginBottom:6}}>{error}</Text>}
+              {error && <Text style={styles.errorMessageStyle}>{error}</Text>}
 
 
 
@@ -196,7 +186,7 @@ const styles = StyleSheet.create({
   },
   errorMessageStyle:{
     color:Theme.colors.danger,
-    fontSize:8,
+    fontSize:12,
     marginHorizontal:30
 
 }

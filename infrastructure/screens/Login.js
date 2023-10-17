@@ -1,14 +1,9 @@
-import {  Alert, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, {  useState } from 'react'
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import * as Yup from "yup";
 import { Formik } from 'formik';
 
 
-import { AppFormField } from '../components/AppFormField';
-import { SubmitButton } from '../components/SubmitButton';
-import AppForm from '../components/AppForm';
-import storage from '../auth/storage';
 import { Theme } from '../Theme';
 import { Text } from '@rneui/themed';
 
@@ -36,7 +31,6 @@ export default function Login({navigation}) {
   const {login, error, isLoading} = useLogin()
 
   const handleLogin = async(values) => {
-    // alert(values.email)
     await login(values.email, values.password);
   }
 
@@ -92,7 +86,7 @@ export default function Login({navigation}) {
                 />
               <ErrorMessage style={styles.errorMessageStyle} error={errors.password} visible={touched.password}
                 />
-                {error && <Text>{error}</Text>}
+                {error && <Text style={styles.errorMessageStyle}>{error}</Text>}
 
 
 
@@ -136,9 +130,6 @@ const styles = StyleSheet.create({
       flex:1,
       marginTop:'15%'
     },
-    erroMessageStyle:{
-      marginLeft:50,
-    },
     noAccount: {
       color: Theme.colors.appPurple,
       marginLeft:10,
@@ -153,7 +144,7 @@ const styles = StyleSheet.create({
     },
     errorMessageStyle:{
       color:Theme.colors.danger,
-      fontSize:8,
+      fontSize:12,
       marginHorizontal:30
   
   }

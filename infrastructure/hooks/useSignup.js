@@ -1,14 +1,11 @@
 import { useState } from "react";
-import { useAuthContext } from "./useAuthContext";
 import { useNavigation } from "@react-navigation/native";
 
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const useSignup = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
-    const {dispatch} = useAuthContext();
     const navigation = useNavigation()
  
     const signup = async ( username,email, password) => {
@@ -34,15 +31,6 @@ export const useSignup = () => {
          if(response.ok){
             setError(null)
 
-            // save user to local storage
-            // try {
-            //     await AsyncStorage.setItem('user', JSON.stringify(json))
-                
-            // } catch (error) {
-            //     throw Error('Error while saving user to local storage')  
-            // } 
-            
-            // dispatch({type: 'LOGIN', payload: json})
 
             setIsLoading(false);
             alert('Account creation succesfful')

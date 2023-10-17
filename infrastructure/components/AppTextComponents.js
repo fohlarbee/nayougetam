@@ -19,6 +19,7 @@ export function AppTextComponents({icon, placeholder, width = "90%", ...otherPro
         onBlur={() => setIsFocused(false)}
         placeholderTextColor='rgba(0,0,0,0.2)'
         
+        
         />
     
     </View>
