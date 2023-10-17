@@ -15,7 +15,10 @@ export default function ChangePassword() {
   return (
     <View style={styles.areaView}>
       <Text style={{fontSize:26, fontWeight:'700', color:Theme.colors.appPurple, textAlign:'center', marginVertical:40}}>Change Password</Text>
-      <AppForm
+
+      <CustomButton actionText='Proceed' color={Theme.colors.appPurple} textColor='#fff' styling={{marginVertical:20}}/>
+
+      {/* <AppForm
          initialValues={{newpassword:'', confirmNewPassword:'', code:''}}
          validationSchema={validationSchema}
       >
@@ -36,7 +39,7 @@ export default function ChangePassword() {
               
             />
             <CustomButton actionText='Proceed' color={Theme.colors.appPurple} textColor='#fff' styling={{marginVertical:20}}/>
-      </AppForm>
+      </AppForm> */}
     </View>
   )
 }

@@ -1,28 +1,58 @@
-import { Alert, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import {  ScrollView, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView } from 'react-native'
+import React, {useState} from 'react'
 import { Text, BottomSheet } from '@rneui/themed';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {Octicons} from '@expo/vector-icons'
+import {Octicons} from '@expo/vector-icons';
+
 import * as Yup from'yup';
-import AppForm from './AppForm';
-import { AppFormField } from './AppFormField';
-import { SubmitButton } from './SubmitButton';
-import { Theme } from '../Theme';
-import { KeyboardAvoidingView } from 'react-native';
+import { Formik } from 'formik';
+
+
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
-import gestureHandlerRootHOC from 'react-native-gesture-handler';
+import { useResetPassword } from '../hooks/useResetPassword';
+import { useSendResetPasswordEmail } from '../hooks/useSendResetPasswordEmail';
+
+
+import { CustomButton } from '../components/CustomButton'
+import {AppTextComponents} from '../components/AppTextComponents';
+import {ErrorMessage} from '../components/ErrorMessage'
+import { Theme } from '../Theme';
+
+
+
+const validationSchema = () => Yup.object().shape({
+  // number: Yup.number().required().label("Mobile Number"),
+  code: Yup.number().required().label("Code"),
+  newPassword: Yup.string().required().label("Password"),
+})
+const validationSchema1 = () => Yup.object().shape({
+  email: Yup.string().required().email().label("Email"),
+})
 
 export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
-  const validationSchema = () => Yup.object().shape({
-    number: Yup.number().required().label("Mobile Number"),
-    code: Yup.number().required().label("Code"),
-    newPassword: Yup.number().required().label("Phone Number"),
-  })
+  const [email, setEmail] = useState('')
+  const {resetPassword, error,isLoading} = useResetPassword()
+  const {sendResetPasswordEmail, isError, isLoadingg} = useSendResetPasswordEmail()
+
+
+
+  const handleSendResetEmail = async(values) => {
+    await sendResetPasswordEmail(values.email)
+    setEmail(values.email)
+
+  }
+
+  const handlePasswordReset = async (email, values) =>{
+    await resetPassword(email, values.code, values.newPassword)
+    alert(values.newPassword)
+  } 
+ 
   return (
     <NativeViewGestureHandler>
       <KeyboardAvoidingView focusable enabled >
          <SafeAreaProvider>
         <BottomSheet isVisible={isBottomSheetVisible} containerStyle={{height:'100%'}}
+        
           
          
         >
@@ -34,73 +64,86 @@ export default function ForgetPassBottomSheet({isBottomSheetVisible, onClose}) {
               </View>
               
               <View style={{marginHorizontal:15}}>
-                <Text h4 style={{fontWeight:"500", color:'#404040'}}>Create new password</Text>
-                <Text style={{fontWeight:"300", fontSize:10}}>Enter verification code and new password</Text>
-                <Text h5 style={{fontWeight:"500", marginTop:25, marginHorizontal:5, color:'#404040'}}>Confirm Mobile mumber</Text>
+                <Text style={{fontWeight:"300", color:'#404040', fontSize:20}}>Create new password</Text>
+                <Text style={{fontWeight:"300", fontSize:8, marginVertical:5}}>Enter verification code and new password</Text>
               </View>
-                <AppForm
-                  validationSchema={validationSchema}
-                  initialValues={{number:'', code:'', newPassword:''}}
-                >
-                    <AppFormField 
-                    name='number' 
-                    placeholder='Mobile number'
-                    maxLength={11}
-                    keyboardType='numeric'
-                    icon='phone-outline'
-                    />
-                    <TouchableOpacity onPress={() => Alert.alert('Verification code sent to 081*****630')}>
-                      <Text style={{
-                        textAlign:"right", 
-                        marginRight:30, 
-                        color:Theme.colors.appPurple,
-                        fontSize:12
-                        }}>Send code
-                      </Text>
-                  </TouchableOpacity>
-                  <Text h5 style={{fontWeight:"500", marginHorizontal:25, color:'#404040'}}>Enter code</Text>
-
-                    <AppFormField 
-                    name='code' 
-                    maxLength={4}
-                    placeholder='Enter 4 digit code'
-                    keyboardType='numeric'
-                    icon='message-text-lock-outline'
-                    />
-                   
-                     
-                    <Text h5 style={{fontWeight:"500", marginLeft:25, color:'#404040'}}>New password</Text>
-
-                     <AppFormField 
-                    name='newPassword' 
-                    placeholder='Create new passoword'
-                    icon='lock-outline'
-                    
-                    secureTextEntry
-                    />
-
-                    <SubmitButton 
-                    onPress={() => 
-                      {
-                        try {
-                          Alert.alert('Passward has been reset, continue to login')
-
-                        } catch (error) {
-                          Alert('Error while  creating new password', error)
-                        }finally{
-                          onClose()
-                        }
-                        
-                      }}
-                    actionText='Create Password'
-                    color={Theme.colors.appPurple}
-                    textColor='#fff'
-                    styling={{marginVertical:25}}
+              <Formik
+               initialValues={{email:''}}
+               validationSchema={validationSchema1}
+               onSubmit={async(values) => await handleSendResetEmail(values)}
+              >
+                {({handleChange, handleSubmit, errors, setFieldTouched, touched}) => (
+                  <>
                   
-
+                    <AppTextComponents
+                    placeholder='Email address'
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    onBlur={() => setFieldTouched('email')}
+                    onChangeText={handleChange("email")}
+                    icon='email-outline'
+                    textContentType='emailAddress'
                     />
-            
-                </AppForm>
+
+                  <ErrorMessage style={styles.errorMessageStyle} error={errors.email} visible={touched.email} />
+                  {isError && <Text style={styles.errorMessageStyle}>{isError}</Text>}
+                  <TouchableOpacity onPress={handleSubmit} disabled={isLoadingg}> 
+                      <Text style={styles.sendCode}>Send code</Text>
+                  </TouchableOpacity>
+
+                  </>
+                )}
+
+              </Formik>
+              <Formik
+            initialValues={{ code: '', newPassword:''}}
+            validationSchema={validationSchema}
+            onSubmit={async(values) => await handlePasswordReset(email, values)}
+
+            >
+              {({handleChange, handleSubmit, errors, setFieldTouched, touched}) => (
+                <>
+
+                <AppTextComponents
+                placeholder='4-digit code'
+                autoCapitalize='none'
+                autoCorrect={false}
+                keyboardType='numeric'
+                maxLength={4}
+                onBlur={() => setFieldTouched('code')}
+                onChangeText={ handleChange("code") }
+                icon='message-lock-outline'
+                textContentType='number'
+                />
+              <ErrorMessage style={styles.errorMessageStyle} error={errors.code} visible={touched.code}
+                />
+                <AppTextComponents
+                placeholder='New password'
+                autoCapitalize='none'
+                autoCorrect={false}
+                onBlur={() => setFieldTouched('newPassword')}
+                onChangeText={handleChange("newPassword")}
+                icon='lock-outline'
+                textContentType='password'
+                />
+              <ErrorMessage style={styles.errorMessageStyle} error={errors.newPassword} visible={touched.newPassword}
+                />
+                {error && <Text style={styles.errorMessageStyle}>{error}</Text>}
+
+
+
+                <CustomButton 
+                actionText='Change password' 
+                color={Theme.colors.appPurple} 
+                textColor='#fff'
+                onPress={handleSubmit}
+                disabled={isLoading}
+                styling={{marginVertical:20}}
+                />
+
+                </>
+              )}
+            </Formik>
             </ScrollView>
 
 
@@ -123,4 +166,18 @@ const styles = StyleSheet.create({
         flex:1,
         maxHeight:'100%'
     },
+    sendCode:{
+      fontSize:10,
+      fontWeight:'500',
+      color:Theme.colors.appPurple,
+      textAlign:'right',
+      marginHorizontal:30
+    
+    },
+    errorMessageStyle:{
+      color:Theme.colors.danger,
+      fontSize:12,
+      marginHorizontal:30
+  
+  }
 })
